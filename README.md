@@ -1,5 +1,6 @@
 # CptS321-in-class-exercises
-
+Cornelius Peck
+11780145
 
 
 ## Getting started
