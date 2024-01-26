@@ -10,7 +10,7 @@ namespace HelloWorld.Math
            
         }
 
-        public static int Add(int a, int b) { return 0; }
+        public static int Add(int a, int b) { return a + b; }
         
 
     }
