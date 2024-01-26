@@ -4,15 +4,17 @@ namespace HelloWorldLL
 {
     internal class LinkedListNode
     {
-        LinkedListNode(int numInput)
+        public LinkedListNode(int numInput)
         {
-            num = numInput;
-            next = null;
-            prev = null;
+            Num = numInput;
+            Next = null;
         }
 
-        private int num;
-        private LinkedListNode? next;
-        private LinkedListNode? prev;
+        internal int Num { get; set; }
+
+        public LinkedListNode? Next { get; set; }
+
+        
+
     }
 }

@@ -32,6 +32,34 @@ namespace consApp
                         writeToFile();
                         break;
                     case "4":
+                        Console.WriteLine("Enter two numbers to be added in a linked list:\n");
+                        Console.WriteLine("Enter first number:");
+                        string input1 = Console.ReadLine();
+                        if (string.IsNullOrEmpty(input1))
+                        {
+                            Console.WriteLine("Invalid input");
+                            do
+                            {
+                                Console.WriteLine("Enter first number:");
+                                input1 = Console.ReadLine();
+                            }
+                            while (!string.IsNullOrEmpty(input1));
+                        }
+                        int num1 = int.Parse(input1);
+                        Console.WriteLine("Enter second number:");
+                        string input2 = Console.ReadLine();
+                        if (string.IsNullOrEmpty(input2))
+                        {
+                            do
+                            {
+                                Console.WriteLine("Enter second number:");
+                                input2 = Console.ReadLine();
+                            }
+                            while (!string.IsNullOrEmpty(input2));
+                        }
+                        int num2 = int.Parse(input2);
+                        Console.WriteLine($"Adding {num1} and {num2} in a linked list...\n");
+                        LinkedList list = new LinkedList();
                         break;
                     default:
                         Console.WriteLine("\aInvalid input\n");
