@@ -28,13 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Person formPerson = new("Cornelius", "Peck");
             groupBox1 = new GroupBox();
-            groupBox2 = new GroupBox();
-            FirstNameBobButton = new Button();
             FirstNameCorneliusButton = new Button();
-            LastNameSmithButton = new Button();
+            FirstNameBobButton = new Button();
+            groupBox2 = new GroupBox();
             LastNamePeckButton = new Button();
+            LastNameSmithButton = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -50,6 +49,28 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "First Name";
             // 
+            // FirstNameCorneliusButton
+            // 
+            FirstNameCorneliusButton.Location = new Point(15, 107);
+            FirstNameCorneliusButton.Name = "FirstNameCorneliusButton";
+            FirstNameCorneliusButton.Size = new Size(566, 29);
+            FirstNameCorneliusButton.TabIndex = 1;
+            FirstNameCorneliusButton.Tag = "Cornelius";
+            FirstNameCorneliusButton.Text = "First Name Is Currently noname. Click to change to Cornelius";
+            FirstNameCorneliusButton.UseVisualStyleBackColor = true;
+            FirstNameCorneliusButton.Click += FirstNameCorneliusButton_Click;
+            // 
+            // FirstNameBobButton
+            // 
+            FirstNameBobButton.Location = new Point(15, 36);
+            FirstNameBobButton.Name = "FirstNameBobButton";
+            FirstNameBobButton.Size = new Size(566, 29);
+            FirstNameBobButton.TabIndex = 0;
+            FirstNameBobButton.Tag = "Bob";
+            FirstNameBobButton.Text = "First Name Is Currently noname. Click to change to Bob";
+            FirstNameBobButton.UseVisualStyleBackColor = true;
+            FirstNameBobButton.Click += FirstNameBobButton_Click;
+            // 
             // groupBox2
             // 
             groupBox2.Controls.Add(LastNamePeckButton);
@@ -61,25 +82,16 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Last Name";
             // 
-            // FirstNameBobButton
+            // LastNamePeckButton
             // 
-            FirstNameBobButton.Location = new Point(15, 36);
-            FirstNameBobButton.Name = "FirstNameBobButton";
-            FirstNameBobButton.Size = new Size(566, 29);
-            FirstNameBobButton.TabIndex = 0;
-            FirstNameBobButton.Text = "First Name Is Currently Cornelius. Click to change to Bob";
-            FirstNameBobButton.UseVisualStyleBackColor = true;
-            FirstNameBobButton.Click += FirstNameBobButton_Click;
-            // 
-            // FirstNameCorneliusButton
-            // 
-            FirstNameCorneliusButton.Location = new Point(15, 107);
-            FirstNameCorneliusButton.Name = "FirstNameCorneliusButton";
-            FirstNameCorneliusButton.Size = new Size(566, 29);
-            FirstNameCorneliusButton.TabIndex = 1;
-            FirstNameCorneliusButton.Text = "First Name Is Currently Cornelius. Click to change to Cornelius";
-            FirstNameCorneliusButton.UseVisualStyleBackColor = true;
-            FirstNameCorneliusButton.Click += FirstNameCorneliusButton_Click;
+            LastNamePeckButton.Location = new Point(15, 100);
+            LastNamePeckButton.Name = "LastNamePeckButton";
+            LastNamePeckButton.Size = new Size(566, 29);
+            LastNamePeckButton.TabIndex = 3;
+            LastNamePeckButton.Tag = "Peck";
+            LastNamePeckButton.Text = "Last Name Is Currently noname. Click to change to Peck";
+            LastNamePeckButton.UseVisualStyleBackColor = true;
+            LastNamePeckButton.Click += LastNamePeckButton_Click;
             // 
             // LastNameSmithButton
             // 
@@ -87,19 +99,10 @@
             LastNameSmithButton.Name = "LastNameSmithButton";
             LastNameSmithButton.Size = new Size(566, 29);
             LastNameSmithButton.TabIndex = 2;
-            LastNameSmithButton.Text = "Last Name Is Currently Peck. Click to change to Smith";
+            LastNameSmithButton.Tag = "Smith";
+            LastNameSmithButton.Text = "Last Name Is Currently noname. Click to change to Smith";
             LastNameSmithButton.UseVisualStyleBackColor = true;
             LastNameSmithButton.Click += LastNameSmithButton_Click;
-            // 
-            // LastNamePeckButton
-            // 
-            LastNamePeckButton.Location = new Point(15, 100);
-            LastNamePeckButton.Name = "LastNamePeckButton";
-            LastNamePeckButton.Size = new Size(566, 29);
-            LastNamePeckButton.TabIndex = 3;
-            LastNamePeckButton.Text = "Last Name Is Currently Peck. Click to change to Peck";
-            LastNamePeckButton.UseVisualStyleBackColor = true;
-            LastNamePeckButton.Click += LastNamePeckButton_Click;
             // 
             // Form1
             // 
@@ -110,7 +113,7 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "Form1";
-            Text = "CptS321: Property Changed Events Demo - Cornelius Peck";
+            Text = "CptS321: Property Changed Events Demo - noname noname";
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             ResumeLayout(false);

@@ -3,20 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace PropertyChangedEventsDemo
 {
-    internal class Person
+    internal class Person : INotifyPropertyChanged
     {
-        public Person(string first, string last)
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public Person()
         {
-            firstName = first;
-            lastName = last;
+            FirstName = "noname";
+            LastName = "noname";
         }
         private string firstName;
         private string lastName;
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-
+        public string FirstName
+        {
+            get { return firstName; }
+            set
+            {
+                if (firstName == value) { return; }
+                firstName = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("FirstName"));
+            }
+        }
+        public string LastName { 
+            get { return lastName; }
+            set
+            {
+                if (lastName == value) { return; }
+                lastName = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("LastName"));
+            }
+        }
     }
 }
