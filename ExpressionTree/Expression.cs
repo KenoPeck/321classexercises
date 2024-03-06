@@ -9,35 +9,6 @@ namespace ExpressionTreeCodeDemo
 {
 	public class Expression
 	{
-		private abstract class Node
-		{
-
-		}
-
-		private class ConstantNode : Node
-		{
-			public double Value { get; set; }
-        }
-
-		private class VariableNode : Node
-		{
-			public string Name { get; set; }
-        }
-
-		private class OperatorNode : Node
-		{
-			public OperatorNode(char c)
-            {
-                Operator = c;
-                Left = Right = null;
-            }
-            
-            public char Operator { get; set; }
-
-            public Node Left { get; set; }
-            public Node Right { get; set; }
-    }
-
 		private Node root;
 
 		private Dictionary<string, double> variables = new Dictionary<string, double>();
