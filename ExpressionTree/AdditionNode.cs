@@ -1,22 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="AdditionNode.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace ExpressionTreeCodeDemo
+namespace ExpressionTree
 {
+    /// <summary>
+    /// Addition node class.
+    /// </summary>
     internal class AdditionNode : OperatorNode
     {
-        public AdditionNode(char c) : base(c)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdditionNode"/> class.
+        /// </summary>
+        /// <param name="c">operator char value.</param>
+        public AdditionNode(char c)
+            : base(c)
         {
-            associativity = associativityVals.L;
-            this.precedence = 1;
+            this.Associativity = AssociativityVals.L;
+            this.Precedence = 1;
         }
 
-        public override double evaluate()
+        /// <summary>
+        /// Evaluates the addition node.
+        /// </summary>
+        /// <returns>evaluated double value of self and children.</returns>
+        public override double Evaluate()
         {
-            return this.Left.evaluate() + this.Right.evaluate();
+            if (this.Right == null || this.Left == null)
+            {
+                throw new System.Exception("Invalid expression");
+            }
+
+            return this.Left.Evaluate() + this.Right.Evaluate();
         }
     }
 }

@@ -1,29 +1,29 @@
-﻿// <copyright file="MultiplicationNode.cs" company="PlaceholderCompany">
+﻿// <copyright file="SubtractionNode.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 namespace ExpressionTree
 {
     /// <summary>
-    /// Multiplication node class.
+    /// Subtraction node class.
     /// </summary>
-    internal class MultiplicationNode : OperatorNode
+    internal class SubtractionNode : OperatorNode
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MultiplicationNode"/> class.
+        /// Initializes a new instance of the <see cref="SubtractionNode"/> class.
         /// </summary>
         /// <param name="c">operator char value.</param>
-        public MultiplicationNode(char c)
+        public SubtractionNode(char c)
             : base(c)
         {
             this.Associativity = AssociativityVals.L;
-            this.Precedence = 3;
+            this.Precedence = 0;
         }
 
         /// <summary>
-        /// Evaluates the multiplication node.
+        /// Evaluates the Subtraction node.
         /// </summary>
-        /// <returns>evaluated double value of self + children.</returns>
+        /// <returns>evaluated double value of self and children.</returns>
         public override double Evaluate()
         {
             if (this.Right == null || this.Left == null)
@@ -31,7 +31,7 @@ namespace ExpressionTree
                 throw new System.Exception("Invalid expression");
             }
 
-            return this.Left.Evaluate() * this.Right.Evaluate();
+            return this.Left.Evaluate() - this.Right.Evaluate();
         }
     }
 }

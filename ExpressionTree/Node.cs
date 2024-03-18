@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="Node.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
-namespace ExpressionTreeCodeDemo
+namespace ExpressionTree
 {
+    /// <summary>
+    /// abstract base node class.
+    /// </summary>
     public abstract class Node
     {
-        public abstract double evaluate();
+        /// <summary>
+        /// abstract evaluate method.
+        /// </summary>
+        /// <returns> double value of evaluated node.</returns>
+        public abstract double Evaluate();
     }
-
-    
 }
