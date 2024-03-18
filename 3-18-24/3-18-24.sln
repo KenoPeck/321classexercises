@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3-18-24", "3-18-24.csproj", "{CBF44A79-BB99-4A96-A53F-9B14E5BFD00D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionTree", "..\ExpressionTree\ExpressionTree.csproj", "{65019388-8FDB-4E32-9FB9-245BB2BD70DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperatorLibrary", "..\ExpressionTree\OperatorLibrary.csproj", "{65019388-8FDB-4E32-9FB9-245BB2BD70DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

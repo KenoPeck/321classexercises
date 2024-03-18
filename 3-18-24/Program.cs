@@ -4,7 +4,7 @@
 
 namespace ConsoleApp
 {
-    using ExpressionTree;
+    using OperatorLibrary;
 
     /// <summary>
     /// Console app Program class.

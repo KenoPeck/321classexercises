@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace ExpressionTree
+namespace OperatorLibrary
 {
     /// <summary>
     /// abstract base node class.

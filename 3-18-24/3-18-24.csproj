@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExpressionTree\ExpressionTree.csproj" />
+    <ProjectReference Include="..\ExpressionTree\OperatorLibrary.csproj" />
   </ItemGroup>
 
 </Project>
