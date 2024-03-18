@@ -27,6 +27,11 @@ namespace OperatorLibrary
         private Dictionary<string, double> variables = new Dictionary<string, double>();
 
         /// <summary>
+        /// Dictionary for storing operators.
+        /// </summary>
+        private Dictionary<char, Type> operators = new Dictionary<char, Type>();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ExpressionTree"/> class.
         /// </summary>
         /// <param name="expression"> Expression from which tree will be generated.</param>

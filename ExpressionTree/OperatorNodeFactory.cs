@@ -16,6 +16,10 @@ namespace OperatorLibrary
         {
         }
 
+        private delegate void OnOperator(char op, Type type);
+
+        // private void TraverseAvailableOperators(OnOperator onOperator);
+
         /// <summary>
         /// Creates an operator node based on the operator char value.
         /// </summary>
