@@ -12,7 +12,7 @@ namespace RemoteControl
         private static void Main(string[] args)
         {
             RemoteControl controller = new RemoteControl();
-            List<string> locations = new List<string> { "Living Room", "Kitchen", "Bedroom" };
+            List<string> locations = new List<string> { "Living Room", "Kitchen", "Bedroom", "Front Door" };
             RemoteLoader loader = new RemoteLoader(controller, locations);
             string? userInput;
             int i = 1, j = 0;
