@@ -1,3 +1,7 @@
+// <copyright file="FinalExamTests.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 namespace FinalExam.Tests
 {
     /// <summary>
@@ -5,6 +9,7 @@ namespace FinalExam.Tests
     /// </summary>
     public class FinalExamTests
     {
+#pragma warning disable SA1600 // Elements should be documented: Elements documentation not detected by stylecop
         [SetUp]
         /// <summary>
         /// Setup method for FinalExamTests.
@@ -18,5 +23,6 @@ namespace FinalExam.Tests
         {
             Assert.Pass();
         }
+#pragma warning restore SA1600 // Elements should be documented
     }
 }

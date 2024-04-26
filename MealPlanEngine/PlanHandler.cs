@@ -1,39 +1,87 @@
-﻿namespace MealPlanEngine
+﻿// <copyright file="PlanHandler.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace MealPlanEngine
 {
+    /// <summary>
+    /// Class to handle meal plans.
+    /// </summary>
     public class PlanHandler
     {
+        /// <summary>
+        /// List of daily goals for food categories.
+        /// </summary>
         private List<Category> dailyGoals;
+
+        /// <summary>
+        /// List of meal plans.
+        /// </summary>
         private List<Plate> mealPlans;
+
+        /// <summary>
+        /// List of available food items.
+        /// </summary>
         private List<FoodItem> availableFoods;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlanHandler"/> class.
+        /// </summary>
         public PlanHandler()
         {
-            dailyGoals = new List<Category>();
-            mealPlans = new List<Plate>();
-            availableFoods = new List<FoodItem>();
+            this.dailyGoals = new List<Category>();
+            this.mealPlans = new List<Plate>();
+            this.availableFoods = new List<FoodItem>();
         }
 
         /// <summary>
         /// Create a new daily goal for a selected food category.
         /// </summary>
-        /// <param name="goal"></param>
+        /// <param name="category">category the goal is for.</param>
         public void CreateDailyGoal(Category category)
         {
-            if (dailyGoals.All(x => x.groups[0] != category.groups[0]))
+            if (this.dailyGoals.All(x => x.Groups[0] != category.Groups[0]))
             {
-                dailyGoals.Add(category);
+                this.dailyGoals.Add(category);
             }
             else
             {
-                foreach (Category goal in dailyGoals)
+                foreach (Category goal in this.dailyGoals)
                 {
-                    if (goal.groups[0] == category.groups[0])
+                    if (goal.Groups[0] == category.Groups[0])
                     {
-                        goal.servings = category.servings;
+                        goal.Groups = category.Groups;
                         break;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Add a new FoodItem to the list of available foods.
+        /// </summary>
+        /// <param name="name">name of the food item being created.</param>
+        /// <param name="category">category of the food item being created.</param>
+        /// <exception cref="System.ArgumentException">Thrown when the food item already exists.</exception>
+        public void CreateFoodItem(string name, Category category)
+        {
+            if (this.availableFoods.All(x => x.Name != name))
+            {
+                this.availableFoods.Add(new FoodItem(name, category));
+            }
+            else
+            {
+                throw new System.ArgumentException("Food item already exists.");
+            }
+        }
+
+        /// <summary>
+        /// Remove a FoodItem from the list of available foods.
+        /// </summary>
+        /// <param name="name">Name of the food item being deleted.</param>
+        public void DeleteFoodItem(string name)
+        {
+            this.availableFoods.RemoveAll(x => x.Name == name);
         }
     }
 }

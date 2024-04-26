@@ -1,4 +1,8 @@
-﻿namespace FinalExam
+﻿// <copyright file="UserProfile.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace FinalExam
 {
     using MealPlanEngine;
 
@@ -64,6 +68,5 @@
         {
             throw new System.NotImplementedException();
         }
-
     }
 }
