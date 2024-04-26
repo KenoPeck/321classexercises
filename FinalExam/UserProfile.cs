@@ -56,7 +56,7 @@ namespace FinalExam
         /// <summary>
         /// Shows a selected meal plan.
         /// </summary>
-        public void ShowMeal()
+        public void ShowMeal(Plate meal)
         {
             throw new System.NotImplementedException();
         }
@@ -92,10 +92,22 @@ namespace FinalExam
         /// <summary>
         /// Creates a daily goal for a selected food category.
         /// </summary>
-        /// <param name="category">Food category to set goal for.</param>
-        public void SetGoal(Category category)
+        /// <param name="group">integer representation of food group of goal.</param>
+        /// <param name="servings">servings of goal.</param>
+        public void SetGoal(int group, float servings)
         {
-            throw new System.NotImplementedException();
+            Category category = new Category(new List<FoodGroup> { (FoodGroup)group }, servings);
+            this.planHandler.SetDailyGoal(category);
+        }
+
+        /// <summary>
+        /// Gets the daily goal for a selected food group.
+        /// </summary>
+        /// <param name="group">group.</param>
+        /// <returns>servingsize.</returns>
+        public float GetGoal(int group)
+        {
+            return this.planHandler.GetDailyGoal((FoodGroup)group);
         }
     }
 }

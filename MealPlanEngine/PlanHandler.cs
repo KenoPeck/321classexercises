@@ -35,10 +35,10 @@ namespace MealPlanEngine
         }
 
         /// <summary>
-        /// Create a new daily goal for a selected food category.
+        /// Set daily goal for a selected food category.
         /// </summary>
         /// <param name="category">category the goal is for.</param>
-        public void CreateDailyGoal(Category category)
+        public void SetDailyGoal(Category category)
         {
             if (this.dailyGoals.All(x => x.Groups[0] != category.Groups[0]))
             {
@@ -55,6 +55,24 @@ namespace MealPlanEngine
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Get the daily goal for a selected food group.
+        /// </summary>
+        /// <param name="foodGroup">group.</param>
+        /// <returns>goal servingsize.</returns>
+        public float GetDailyGoal(FoodGroup foodGroup)
+        {
+            foreach (Category goal in this.dailyGoals)
+            {
+                if (goal.Groups[0] == foodGroup)
+                {
+                    return goal.Servings;
+                }
+            }
+
+            return 0;
         }
 
         /// <summary>
