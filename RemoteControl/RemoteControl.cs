@@ -14,7 +14,7 @@ namespace RemoteControl
         
         public RemoteControl() { }
 
-        public void SetCommand(bool on, Command newCommand)
+        internal void SetCommand(bool on, Command newCommand)
         {
             if (on)
             {
