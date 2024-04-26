@@ -39,5 +39,60 @@ namespace MealPlanEngine
         /// Gets date the meal is planned for.
         /// </summary>
         public DateTime Date { get; private set; }
+
+        /// <summary>
+        /// Adds a food item to the plate.
+        /// </summary>
+        /// <param name="foodItem">Food item to be added to plate.</param>
+        public void AddFoodItem(FoodItem foodItem)
+        {
+            if (this.Foods.All(x => x != foodItem))
+            {
+                this.Foods.Add(foodItem);
+            }
+            else
+            {
+                throw new InvalidOperationException("Food item already exists on the plate.");
+            }
+
+            foreach (FoodGroup group in foodItem.Category.Groups)
+            {
+                if (this.FoodCategories.All(x => x.Groups[0] != group))
+                {
+                    this.FoodCategories.Add(new Category(new List<FoodGroup> { group }, foodItem.Category.Servings));
+                }
+                else
+                {
+                    foreach (Category category in this.FoodCategories)
+                    {
+                        if (category.Groups[0] == group)
+                        {
+                            category.Servings += foodItem.Category.Servings;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes a food item from the plate.
+        /// </summary>
+        /// <param name="foodItem">FoodItem to be reomved from the plate.</param>
+        public void RemoveFoodItem(FoodItem foodItem)
+        {
+            this.Foods.Remove(foodItem);
+            foreach (FoodGroup group in foodItem.Category.Groups)
+            {
+                foreach (Category category in this.FoodCategories)
+                {
+                    if (category.Groups[0] == group)
+                    {
+                        category.Servings -= foodItem.Category.Servings;
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

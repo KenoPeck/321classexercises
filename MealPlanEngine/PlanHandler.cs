@@ -83,5 +83,40 @@ namespace MealPlanEngine
         {
             this.availableFoods.RemoveAll(x => x.Name == name);
         }
+
+        /// <summary>
+        /// Change the servings of a food item.
+        /// </summary>
+        /// <param name="name">name of the food item to be edited.</param>
+        /// <param name="newServings">new servings of the food item.</param>
+        /// <exception cref="System.ArgumentException">Thrown when the food item does not exist.</exception>
+        public void ChangeFoodItemServings(string name, float newServings)
+        {
+            foreach (FoodItem food in this.availableFoods)
+            {
+                if (food.Name == name)
+                {
+                    food.ChangeServings(newServings);
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Change the food groups of a food item.
+        /// </summary>
+        /// <param name="name">name of the food item to change.</param>
+        /// <param name="groups">list of new food groups.</param>
+        public void ChangeFoodItemGroups(string name, List<FoodGroup> groups)
+        {
+            foreach (FoodItem food in this.availableFoods)
+            {
+                if (food.Name == name)
+                {
+                    food.ChangeFoodGroups(groups);
+                    break;
+                }
+            }
+        }
     }
 }

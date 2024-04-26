@@ -57,8 +57,8 @@ namespace MealPlanEngine
         public List<FoodGroup> Groups { get; set; }
 
         /// <summary>
-        /// Gets number of servings in the category.
+        /// Gets or Sets number of servings in the category.
         /// </summary>
-        public float Servings { get; private set; }
+        public float Servings { get; set; }
     }
 }
