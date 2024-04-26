@@ -11,6 +11,9 @@ namespace FinalExam
     /// </summary>
     internal class UserProfile
     {
+        private string userID;
+        private string password;
+
         /// <summary>
         /// Plan handler for managing the user's meal plan.
         /// </summary>
@@ -19,9 +22,35 @@ namespace FinalExam
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfile"/> class.
         /// </summary>
-        public UserProfile()
+        /// <param name="userID">user's userID.</param>
+        /// <param name="password">user's password.</param>
+        public UserProfile(string userID, string password)
         {
             this.planHandler = new PlanHandler();
+            this.userID = userID;
+            this.password = password;
+        }
+
+        /// <summary>
+        /// Gets the user's ID.
+        /// </summary>
+        internal string UserID
+        {
+            get
+            {
+                return this.userID;
+            }
+        }
+
+        /// <summary>
+        /// Gets the user's password.
+        /// </summary>
+        internal string Password
+        {
+            get
+            {
+                return this.password;
+            }
         }
 
         /// <summary>
