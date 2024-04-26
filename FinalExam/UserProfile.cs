@@ -75,18 +75,44 @@ namespace FinalExam
         /// </summary>
         /// <param name="name">Name of new food item.</param>
         /// <param name="categories">Categories of new food item.</param>
-        public void CreateFoodItem(string name, Category categories)
+        public void CreateFoodItem(string name, float quantity, List<int>groups)
         {
-            throw new System.NotImplementedException();
+            List<FoodGroup> foodGroups = new List<FoodGroup>();
+            foreach (int group in groups)
+            {
+                foodGroups.Add((FoodGroup)group);
+            }
+
+            Category category = new Category(foodGroups, quantity);
+            this.planHandler.CreateFoodItem(name, category);
+        }
+
+        public List<(string, float)> GetFoodItems()
+        {
+            List<(string, float)> foodItems = new List<(string, float)>();
+            foreach ((var name, Category category) in this.planHandler.GetAvailableFoods())
+            {
+                foodItems.Add((name, category.Servings));
+            }
+
+            return foodItems;
         }
 
         /// <summary>
         /// Creates a new plate to add to the selected date's meals.
         /// </summary>
         /// <param name="date">Date the meal is planned for.</param>
-        public void CreateMealPlan(DateTime date)
+        public void CreateMealPlan(List<(string, float)> foods, DateTime date)
         {
-            throw new System.NotImplementedException();
+            Plate meal = this.planHandler.CreatePlate(date);
+            foreach ((string name, float servings) in foods)
+            {
+                Category category = this.planHandler.GetAvailableFoods().Find(x => x.Item1 == name).Item2;
+                FoodItem foodItem = new FoodItem(name, category);
+                foodItem.ChangeServings(servings);
+                planHandler.AddFoodToPlate(meal, foodItem);
+            }
+
         }
 
         /// <summary>

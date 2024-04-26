@@ -226,6 +226,7 @@
             AddMealButton.TabIndex = 9;
             AddMealButton.Text = "Add Meal";
             AddMealButton.UseVisualStyleBackColor = true;
+            AddMealButton.Click += AddMealButton_Click;
             // 
             // ViewMealDateTimePicker
             // 
@@ -499,7 +500,7 @@
             FruitDailyGoalTextBox.Name = "FruitDailyGoalTextBox";
             FruitDailyGoalTextBox.Size = new Size(42, 27);
             FruitDailyGoalTextBox.TabIndex = 46;
-            FruitDailyGoalTextBox.Enter += FruitDailyGoalTextBox_Enter;
+            FruitDailyGoalTextBox.KeyPress += FruitDailyGoalTextBox_Enter;
             // 
             // label12
             // 
@@ -525,7 +526,7 @@
             VegetableDailyGoalTextBox.Name = "VegetableDailyGoalTextBox";
             VegetableDailyGoalTextBox.Size = new Size(42, 27);
             VegetableDailyGoalTextBox.TabIndex = 48;
-            VegetableDailyGoalTextBox.Enter += VegetableDailyGoalTextBox_Enter;
+            VegetableDailyGoalTextBox.KeyPress += VegetableDailyGoalTextBox_Enter;
             // 
             // label14
             // 
@@ -542,7 +543,7 @@
             ProteinDailyGoalTextBox.Name = "ProteinDailyGoalTextBox";
             ProteinDailyGoalTextBox.Size = new Size(42, 27);
             ProteinDailyGoalTextBox.TabIndex = 50;
-            ProteinDailyGoalTextBox.Enter += ProteinDailyGoalTextBox_Enter;
+            ProteinDailyGoalTextBox.KeyPress += ProteinDailyGoalTextBox_Enter;
             // 
             // label15
             // 
@@ -559,7 +560,7 @@
             GrainsDailyGoalTextBox.Name = "GrainsDailyGoalTextBox";
             GrainsDailyGoalTextBox.Size = new Size(42, 27);
             GrainsDailyGoalTextBox.TabIndex = 52;
-            GrainsDailyGoalTextBox.Enter += GrainsDailyGoalTextBox_Enter;
+            GrainsDailyGoalTextBox.KeyPress += GrainsDailyGoalTextBox_Enter;
             // 
             // label16
             // 
@@ -576,7 +577,7 @@
             DairyDailyGoalTextBox.Name = "DairyDailyGoalTextBox";
             DairyDailyGoalTextBox.Size = new Size(42, 27);
             DairyDailyGoalTextBox.TabIndex = 54;
-            DairyDailyGoalTextBox.Enter += DairyDailyGoalTextBox_Enter;
+            DairyDailyGoalTextBox.KeyPress += DairyDailyGoalTextBox_Enter;
             // 
             // label17
             // 
@@ -757,6 +758,7 @@
             AddFoodButton.TabIndex = 86;
             AddFoodButton.Text = "Add";
             AddFoodButton.UseVisualStyleBackColor = true;
+            AddFoodButton.Click += AddFoodButton_Click;
             // 
             // AddMealGroup
             // 
@@ -795,6 +797,7 @@
             AddToMealButton.TabIndex = 74;
             AddToMealButton.Text = "Add To Meal";
             AddToMealButton.UseVisualStyleBackColor = true;
+            AddToMealButton.Click += AddToMealButton_Click;
             // 
             // AddMealQuantityTextBox
             // 
@@ -1157,7 +1160,6 @@
             EditFoodGroup.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
-            this.HideMealPlanner();
         }
 
         #endregion

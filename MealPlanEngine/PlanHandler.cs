@@ -24,6 +24,8 @@ namespace MealPlanEngine
         /// </summary>
         private List<FoodItem> availableFoods;
 
+        private PlateFactory plateFactory = new (DateTime.Now);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PlanHandler"/> class.
         /// </summary>
@@ -32,6 +34,18 @@ namespace MealPlanEngine
             this.dailyGoals = new List<Category>();
             this.mealPlans = new List<Plate>();
             this.availableFoods = new List<FoodItem>();
+        }
+
+        public Plate CreatePlate(DateTime date)
+        {
+            Plate plate = this.plateFactory.CreatePlate("Dinner", date);
+            this.mealPlans.Add(plate);
+            return plate;
+        }
+
+        public void AddFoodToPlate(Plate plate, FoodItem foodItem)
+        {
+            plate.AddFoodItem(foodItem);
         }
 
         /// <summary>
@@ -91,6 +105,17 @@ namespace MealPlanEngine
             {
                 throw new System.ArgumentException("Food item already exists.");
             }
+        }
+
+        public List<(string, Category)> GetAvailableFoods()
+        {
+            List<(string, Category)> availableFoods = new List<(string, Category)>();
+            foreach (FoodItem food in this.availableFoods)
+            {
+                availableFoods.Add((food.Name, food.Category));
+            }
+
+            return availableFoods;
         }
 
         /// <summary>
