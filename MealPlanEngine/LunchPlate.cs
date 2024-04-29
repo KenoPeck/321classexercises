@@ -13,8 +13,9 @@ namespace MealPlanEngine
         /// Initializes a new instance of the <see cref="LunchPlate"/> class.
         /// </summary>
         /// <param name="date">date this meal is planned for.</param>
-        public LunchPlate(DateTime date)
-            : base(date)
+        /// <param name="mealName">name of the meal.</param>
+        public LunchPlate(DateTime date, string mealName)
+            : base(date, mealName)
         {
         }
 

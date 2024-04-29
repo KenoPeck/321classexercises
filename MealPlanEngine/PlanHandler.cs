@@ -9,10 +9,12 @@ namespace MealPlanEngine
     /// </summary>
     public class PlanHandler
     {
+        private Dictionary<(string, DateTime), int> mealTypeCounts = new Dictionary<(string, DateTime), int>();
+
         /// <summary>
         /// List of daily goals for food categories.
         /// </summary>
-        private List<Category> dailyGoals;
+        private Dictionary<FoodGroup, float> dailyGoals;
 
         /// <summary>
         /// List of meal plans.
@@ -24,25 +26,47 @@ namespace MealPlanEngine
         /// </summary>
         private List<FoodItem> availableFoods;
 
-        private PlateFactory plateFactory = new (DateTime.Now);
+        private PlateFactory plateFactory = new (DateTime.Now, "Plate Factory");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlanHandler"/> class.
         /// </summary>
         public PlanHandler()
         {
-            this.dailyGoals = new List<Category>();
+            this.dailyGoals = new Dictionary<FoodGroup, float> { { FoodGroup.Fruit, 0 }, { FoodGroup.Vegetable, 0 }, { FoodGroup.Protein, 0 }, { FoodGroup.Grain, 0 }, { FoodGroup.Dairy, 0 } };
             this.mealPlans = new List<Plate>();
             this.availableFoods = new List<FoodItem>();
         }
 
-        public Plate CreatePlate(DateTime date)
+        /// <summary>
+        /// Create a new plate.
+        /// </summary>
+        /// <param name="date">date the meal is planned for.</param>
+        /// <param name="mealType">type of meal.</param>
+        /// <returns>returns the created plate.</returns>
+        public Plate CreatePlate(DateTime date, string mealType)
         {
-            Plate plate = this.plateFactory.CreatePlate("Dinner", date);
-            this.mealPlans.Add(plate);
-            return plate;
+            if (this.mealTypeCounts.ContainsKey((mealType, date)))
+            {
+                this.mealTypeCounts[(mealType, date)]++;
+                Plate plate = this.plateFactory.CreatePlate(mealType, date, mealType + this.mealTypeCounts[(mealType, date)].ToString());
+                this.mealPlans.Add(plate);
+                return plate;
+            }
+            else
+            {
+                this.mealTypeCounts.Add((mealType, date), 1);
+                Plate plate = this.plateFactory.CreatePlate(mealType, date, mealType);
+                this.mealPlans.Add(plate);
+                return plate;
+            }
         }
 
+        /// <summary>
+        /// Add a food item to a plate.
+        /// </summary>
+        /// <param name="plate">plate the food is being added to.</param>
+        /// <param name="foodItem">food item being added to plate.</param>
         public void AddFoodToPlate(Plate plate, FoodItem foodItem)
         {
             plate.AddFoodItem(foodItem);
@@ -54,21 +78,7 @@ namespace MealPlanEngine
         /// <param name="category">category the goal is for.</param>
         public void SetDailyGoal(Category category)
         {
-            if (this.dailyGoals.All(x => x.Groups[0] != category.Groups[0]))
-            {
-                this.dailyGoals.Add(category);
-            }
-            else
-            {
-                foreach (Category goal in this.dailyGoals)
-                {
-                    if (goal.Groups[0] == category.Groups[0])
-                    {
-                        goal.Groups = category.Groups;
-                        break;
-                    }
-                }
-            }
+            this.dailyGoals[category.Groups[0]] = category.Servings;
         }
 
         /// <summary>
@@ -78,11 +88,55 @@ namespace MealPlanEngine
         /// <returns>goal servingsize.</returns>
         public float GetDailyGoal(FoodGroup foodGroup)
         {
-            foreach (Category goal in this.dailyGoals)
+            return this.dailyGoals[foodGroup];
+        }
+
+        /// <summary>
+        /// Get the daily servings from all meals for a selected food group.
+        /// </summary>
+        /// <param name="foodGroup">food group to get servings for.</param>
+        /// <param name="date">date to get servings for.</param>
+        /// <returns>float of servings for food group from all plates on selected date.</returns>
+        public float GetDailyServings(FoodGroup foodGroup, DateTime date)
+        {
+            float servings = 0;
+            foreach (Plate plate in this.mealPlans)
             {
-                if (goal.Groups[0] == foodGroup)
+                if (plate.Date == date)
                 {
-                    return goal.Servings;
+                    foreach (FoodItem food in plate.Foods)
+                    {
+                        if (food.Category.Groups.Contains(foodGroup))
+                        {
+                            servings += food.Category.Servings;
+                        }
+                    }
+                }
+            }
+
+            return servings;
+        }
+
+        /// <summary>
+        /// Get the servings of a food item.
+        /// </summary>
+        /// <param name="mealName">name of the plate to retrieve servings for.</param>
+        /// <param name="date">date of meal to retrieve servings for.</param>
+        /// <param name="group">foodgroup of meal to retrieve servings for.</param>
+        /// <returns>float representing servings of the inputted foodgroup for the selected plate on the selected date.</returns>
+        public float GetPlateServings(string mealName, DateTime date, int group)
+        {
+            foreach (Plate plate in this.mealPlans)
+            {
+                if (plate.MealName == mealName && plate.Date == date)
+                {
+                    foreach (Category category in plate.FoodCategories)
+                    {
+                        if (category.Groups[0] == (FoodGroup)group)
+                        {
+                            return category.Servings;
+                        }
+                    }
                 }
             }
 
@@ -107,6 +161,10 @@ namespace MealPlanEngine
             }
         }
 
+        /// <summary>
+        /// Get the list of available foods.
+        /// </summary>
+        /// <returns>List of available foods in mealplan.</returns>
         public List<(string, Category)> GetAvailableFoods()
         {
             List<(string, Category)> availableFoods = new List<(string, Category)>();
@@ -116,6 +174,24 @@ namespace MealPlanEngine
             }
 
             return availableFoods;
+        }
+
+        /// <summary>
+        /// Get the list of meal types.
+        /// </summary>
+        /// <returns>List of the available meal types.</returns>
+        public List<string> GetMealTypes()
+        {
+            return this.plateFactory.GetMealTypes();
+        }
+
+        /// <summary>
+        /// Get the list of meal plans.
+        /// </summary>
+        /// <returns>List of plates.</returns>
+        public List<Plate> GetMealPlans()
+        {
+            return this.mealPlans;
         }
 
         /// <summary>

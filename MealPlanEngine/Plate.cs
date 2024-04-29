@@ -13,11 +13,13 @@ namespace MealPlanEngine
         /// Initializes a new instance of the <see cref="Plate"/> class.
         /// </summary>
         /// <param name="date">date the meal is planned for.</param>
-        public Plate(DateTime date)
+        /// <param name="mealName">name of the meal.</param>
+        public Plate(DateTime date, string mealName)
         {
             this.Foods = new List<FoodItem>();
             this.FoodCategories = new List<Category>();
             this.Date = date;
+            this.MealName = mealName;
         }
 
         /// <summary>
@@ -39,6 +41,20 @@ namespace MealPlanEngine
         /// Gets date the meal is planned for.
         /// </summary>
         public DateTime Date { get; private set; }
+
+        /// <summary>
+        /// Gets name of the meal.
+        /// </summary>
+        public string MealName { get; private set; }
+
+        /// <summary>
+        /// Gets meal type of the plate.
+        /// </summary>
+        /// <returns>string representation of meal type.</returns>
+        public string GetMealType()
+        {
+            return MealType;
+        }
 
         /// <summary>
         /// Adds a food item to the plate.

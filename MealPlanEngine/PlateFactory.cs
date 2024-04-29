@@ -21,8 +21,9 @@ namespace MealPlanEngine
         /// Initializes a new instance of the <see cref="PlateFactory"/> class.
         /// </summary>
         /// <param name="date">date for base class constructor.</param>
-        public PlateFactory(DateTime date)
-            : base(date)
+        /// <param name="mealName">meal name for base class constructor.</param>
+        public PlateFactory(DateTime date, string mealName)
+            : base(date, mealName)
         {
             this.TraverseAvailableMealTypes((mealType, type) => this.mealTypes.Add(mealType, type));
         }
@@ -34,13 +35,14 @@ namespace MealPlanEngine
         /// </summary>
         /// <param name="mealType">mealtype of the plate being created.</param>
         /// <param name="date">date the meal is planned for.</param>
+        /// <param name="mealName">name of the meal.</param>
         /// <returns>Plate object of mealtype subclass.</returns>
         /// <exception cref="ArgumentException">unhandled meal type.</exception>
-        public Plate CreatePlate(string mealType, DateTime date)
+        public Plate CreatePlate(string mealType, DateTime date, string mealName)
         {
             if (this.mealTypes.ContainsKey(mealType))
             {
-                object plateObject = System.Activator.CreateInstance(this.mealTypes[mealType], date);
+                object plateObject = System.Activator.CreateInstance(this.mealTypes[mealType], date, mealName);
                 if (plateObject is Plate)
                 {
                     return (Plate)plateObject;
@@ -54,6 +56,15 @@ namespace MealPlanEngine
             {
                 throw new ArgumentException("Invalid meal type.");
             }
+        }
+
+        /// <summary>
+        /// Get all available meal types.
+        /// </summary>
+        /// <returns>List of available meal types as strings.</returns>
+        public List<string> GetMealTypes()
+        {
+            return this.mealTypes.Keys.ToList();
         }
 
         /// <summary>
@@ -78,7 +89,7 @@ namespace MealPlanEngine
                     {
                         // Get the string of the MealType
                         object value = mealField.GetValue(type);
-                        if (value is char)
+                        if (value is string)
                         {
                             string mealType = (string)value;
 

@@ -38,8 +38,6 @@
             DatesLabel = new Label();
             DateBox = new ListBox();
             AddMealButton = new Button();
-            ViewMealDateTimePicker = new DateTimePicker();
-            ViewMealsOnDateButton = new Button();
             SelectedDateMealsLabel = new Label();
             MealSelectorBox = new ListBox();
             MealSpecificPercentFruit = new Label();
@@ -96,6 +94,8 @@
             AddFoodGroup = new GroupBox();
             AddFoodButton = new Button();
             AddMealGroup = new GroupBox();
+            MealTypeBox = new ListBox();
+            label2 = new Label();
             label5 = new Label();
             AddToMealButton = new Button();
             AddMealQuantityTextBox = new TextBox();
@@ -105,7 +105,6 @@
             label6 = new Label();
             EditMealQuantityTextBox = new TextBox();
             label18 = new Label();
-            ViewOnDateGroup = new GroupBox();
             SelectedMealAmountsGroup = new GroupBox();
             DailyAmountsGroup = new GroupBox();
             EditMealGroup = new GroupBox();
@@ -129,10 +128,10 @@
             EditFoodProteinCheckBox = new CheckBox();
             EditFoodVegetableCheckBox = new CheckBox();
             EditFoodFruitCheckBox = new CheckBox();
+            EditMealButton = new Button();
             DailyGoalsGroup.SuspendLayout();
             AddFoodGroup.SuspendLayout();
             AddMealGroup.SuspendLayout();
-            ViewOnDateGroup.SuspendLayout();
             SelectedMealAmountsGroup.SuspendLayout();
             DailyAmountsGroup.SuspendLayout();
             EditMealGroup.SuspendLayout();
@@ -217,6 +216,7 @@
             DateBox.Name = "DateBox";
             DateBox.Size = new Size(185, 144);
             DateBox.TabIndex = 8;
+            DateBox.SelectedIndexChanged += DateBox_SelectedIndexChanged;
             // 
             // AddMealButton
             // 
@@ -227,22 +227,6 @@
             AddMealButton.Text = "Add Meal";
             AddMealButton.UseVisualStyleBackColor = true;
             AddMealButton.Click += AddMealButton_Click;
-            // 
-            // ViewMealDateTimePicker
-            // 
-            ViewMealDateTimePicker.Location = new Point(6, 39);
-            ViewMealDateTimePicker.Name = "ViewMealDateTimePicker";
-            ViewMealDateTimePicker.Size = new Size(250, 27);
-            ViewMealDateTimePicker.TabIndex = 10;
-            // 
-            // ViewMealsOnDateButton
-            // 
-            ViewMealsOnDateButton.Location = new Point(6, 72);
-            ViewMealsOnDateButton.Name = "ViewMealsOnDateButton";
-            ViewMealsOnDateButton.Size = new Size(250, 42);
-            ViewMealsOnDateButton.TabIndex = 12;
-            ViewMealsOnDateButton.Text = "View Meals On Selected Date";
-            ViewMealsOnDateButton.UseVisualStyleBackColor = true;
             // 
             // SelectedDateMealsLabel
             // 
@@ -261,6 +245,7 @@
             MealSelectorBox.Name = "MealSelectorBox";
             MealSelectorBox.Size = new Size(185, 144);
             MealSelectorBox.TabIndex = 15;
+            MealSelectorBox.SelectedIndexChanged += MealSelectorBox_SelectedIndexChanged;
             // 
             // MealSpecificPercentFruit
             // 
@@ -402,45 +387,45 @@
             DailyPercentDairy.AutoSize = true;
             DailyPercentDairy.Location = new Point(39, 152);
             DailyPercentDairy.Name = "DailyPercentDairy";
-            DailyPercentDairy.Size = new Size(229, 20);
+            DailyPercentDairy.Size = new Size(235, 20);
             DailyPercentDairy.TabIndex = 30;
-            DailyPercentDairy.Text = "% of Daily Dairy Goal From Meal:";
+            DailyPercentDairy.Text = "% of Daily Dairy Goal From Meals:";
             // 
             // DailyPercentGrains
             // 
             DailyPercentGrains.AutoSize = true;
             DailyPercentGrains.Location = new Point(34, 118);
             DailyPercentGrains.Name = "DailyPercentGrains";
-            DailyPercentGrains.Size = new Size(235, 20);
+            DailyPercentGrains.Size = new Size(241, 20);
             DailyPercentGrains.TabIndex = 29;
-            DailyPercentGrains.Text = "% of Daily Grains Goal From Meal:";
+            DailyPercentGrains.Text = "% of Daily Grains Goal From Meals:";
             // 
             // DailyPercentProtein
             // 
             DailyPercentProtein.AutoSize = true;
             DailyPercentProtein.Location = new Point(28, 89);
             DailyPercentProtein.Name = "DailyPercentProtein";
-            DailyPercentProtein.Size = new Size(241, 20);
+            DailyPercentProtein.Size = new Size(247, 20);
             DailyPercentProtein.TabIndex = 28;
-            DailyPercentProtein.Text = "% of Daily Protein Goal From Meal:";
+            DailyPercentProtein.Text = "% of Daily Protein Goal From Meals:";
             // 
             // DailyPercentVegetable
             // 
             DailyPercentVegetable.AutoSize = true;
             DailyPercentVegetable.Location = new Point(8, 55);
             DailyPercentVegetable.Name = "DailyPercentVegetable";
-            DailyPercentVegetable.Size = new Size(261, 20);
+            DailyPercentVegetable.Size = new Size(267, 20);
             DailyPercentVegetable.TabIndex = 27;
-            DailyPercentVegetable.Text = "% of Daily Vegetable Goal From Meal:";
+            DailyPercentVegetable.Text = "% of Daily Vegetable Goal From Meals:";
             // 
             // DailyPercentFruit
             // 
             DailyPercentFruit.AutoSize = true;
             DailyPercentFruit.Location = new Point(46, 24);
             DailyPercentFruit.Name = "DailyPercentFruit";
-            DailyPercentFruit.Size = new Size(223, 20);
+            DailyPercentFruit.Size = new Size(229, 20);
             DailyPercentFruit.TabIndex = 26;
-            DailyPercentFruit.Text = "% of Daily Fruit Goal From Meal:";
+            DailyPercentFruit.Text = "% of Daily Fruit Goal From Meals:";
             // 
             // AddMealDateTimePicker
             // 
@@ -593,14 +578,14 @@
             AvailableFoodBox.FormattingEnabled = true;
             AvailableFoodBox.Location = new Point(6, 45);
             AvailableFoodBox.Name = "AvailableFoodBox";
-            AvailableFoodBox.Size = new Size(232, 224);
+            AvailableFoodBox.Size = new Size(232, 104);
             AvailableFoodBox.TabIndex = 57;
             // 
             // FoodNameTextBox
             // 
-            FoodNameTextBox.Location = new Point(102, 23);
+            FoodNameTextBox.Location = new Point(94, 23);
             FoodNameTextBox.Name = "FoodNameTextBox";
-            FoodNameTextBox.Size = new Size(42, 27);
+            FoodNameTextBox.Size = new Size(112, 27);
             FoodNameTextBox.TabIndex = 60;
             // 
             // label19
@@ -614,15 +599,15 @@
             // 
             // FoodQuantityTextBox
             // 
-            FoodQuantityTextBox.Location = new Point(80, 51);
+            FoodQuantityTextBox.Location = new Point(80, 52);
             FoodQuantityTextBox.Name = "FoodQuantityTextBox";
-            FoodQuantityTextBox.Size = new Size(64, 27);
+            FoodQuantityTextBox.Size = new Size(47, 27);
             FoodQuantityTextBox.TabIndex = 62;
             // 
             // label20
             // 
             label20.AutoSize = true;
-            label20.Location = new Point(6, 51);
+            label20.Location = new Point(6, 53);
             label20.Name = "label20";
             label20.Size = new Size(68, 20);
             label20.TabIndex = 61;
@@ -631,7 +616,7 @@
             // label21
             // 
             label21.AutoSize = true;
-            label21.Location = new Point(142, 54);
+            label21.Location = new Point(133, 56);
             label21.Name = "label21";
             label21.Size = new Size(64, 20);
             label21.TabIndex = 63;
@@ -752,7 +737,7 @@
             // 
             // AddFoodButton
             // 
-            AddFoodButton.Location = new Point(153, 21);
+            AddFoodButton.Location = new Point(161, 126);
             AddFoodButton.Name = "AddFoodButton";
             AddFoodButton.Size = new Size(53, 29);
             AddFoodButton.TabIndex = 86;
@@ -762,6 +747,8 @@
             // 
             // AddMealGroup
             // 
+            AddMealGroup.Controls.Add(MealTypeBox);
+            AddMealGroup.Controls.Add(label2);
             AddMealGroup.Controls.Add(label5);
             AddMealGroup.Controls.Add(AddToMealButton);
             AddMealGroup.Controls.Add(AddMealQuantityTextBox);
@@ -779,6 +766,23 @@
             AddMealGroup.TabIndex = 73;
             AddMealGroup.TabStop = false;
             AddMealGroup.Text = "Add A Meal";
+            // 
+            // MealTypeBox
+            // 
+            MealTypeBox.FormattingEnabled = true;
+            MealTypeBox.Location = new Point(6, 172);
+            MealTypeBox.Name = "MealTypeBox";
+            MealTypeBox.Size = new Size(232, 104);
+            MealTypeBox.TabIndex = 82;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(6, 152);
+            label2.Name = "label2";
+            label2.Size = new Size(199, 20);
+            label2.TabIndex = 81;
+            label2.Text = "Select From Available Meals:";
             // 
             // label5
             // 
@@ -857,17 +861,6 @@
             label18.TabIndex = 70;
             label18.Text = "Servings";
             // 
-            // ViewOnDateGroup
-            // 
-            ViewOnDateGroup.Controls.Add(ViewMealDateTimePicker);
-            ViewOnDateGroup.Controls.Add(ViewMealsOnDateButton);
-            ViewOnDateGroup.Location = new Point(825, 12);
-            ViewOnDateGroup.Name = "ViewOnDateGroup";
-            ViewOnDateGroup.Size = new Size(275, 125);
-            ViewOnDateGroup.TabIndex = 74;
-            ViewOnDateGroup.TabStop = false;
-            ViewOnDateGroup.Text = "View Meals On A Specified Date:";
-            // 
             // SelectedMealAmountsGroup
             // 
             SelectedMealAmountsGroup.Controls.Add(MealSpecificPercentFruit);
@@ -880,7 +873,7 @@
             SelectedMealAmountsGroup.Controls.Add(ProteinPercentLabel);
             SelectedMealAmountsGroup.Controls.Add(GrainsPercentLabel);
             SelectedMealAmountsGroup.Controls.Add(DairyPercentLabel);
-            SelectedMealAmountsGroup.Location = new Point(798, 143);
+            SelectedMealAmountsGroup.Location = new Point(838, 22);
             SelectedMealAmountsGroup.Name = "SelectedMealAmountsGroup";
             SelectedMealAmountsGroup.Size = new Size(365, 189);
             SelectedMealAmountsGroup.TabIndex = 75;
@@ -899,7 +892,7 @@
             DailyAmountsGroup.Controls.Add(VegetablePercentLabelDaily);
             DailyAmountsGroup.Controls.Add(GrainsPercentLabelDaily);
             DailyAmountsGroup.Controls.Add(ProteinPercentLabelDaily);
-            DailyAmountsGroup.Location = new Point(793, 344);
+            DailyAmountsGroup.Location = new Point(838, 228);
             DailyAmountsGroup.Name = "DailyAmountsGroup";
             DailyAmountsGroup.Size = new Size(370, 176);
             DailyAmountsGroup.TabIndex = 76;
@@ -991,20 +984,20 @@
             EditFoodGroup.Controls.Add(EditFoodProteinCheckBox);
             EditFoodGroup.Controls.Add(EditFoodVegetableCheckBox);
             EditFoodGroup.Controls.Add(EditFoodFruitCheckBox);
-            EditFoodGroup.Location = new Point(753, 522);
+            EditFoodGroup.Location = new Point(753, 425);
             EditFoodGroup.Name = "EditFoodGroup";
-            EditFoodGroup.Size = new Size(460, 175);
+            EditFoodGroup.Size = new Size(460, 272);
             EditFoodGroup.TabIndex = 78;
             EditFoodGroup.TabStop = false;
-            EditFoodGroup.Text = "Edit Current Food:";
+            EditFoodGroup.Text = "Edit Available Foods:";
             // 
             // EditFoodUpdateButton
             // 
-            EditFoodUpdateButton.Location = new Point(260, 128);
+            EditFoodUpdateButton.Location = new Point(260, 137);
             EditFoodUpdateButton.Name = "EditFoodUpdateButton";
-            EditFoodUpdateButton.Size = new Size(72, 29);
+            EditFoodUpdateButton.Size = new Size(190, 48);
             EditFoodUpdateButton.TabIndex = 85;
-            EditFoodUpdateButton.Text = "Update";
+            EditFoodUpdateButton.Text = "Update Food";
             EditFoodUpdateButton.UseVisualStyleBackColor = true;
             // 
             // label26
@@ -1018,11 +1011,11 @@
             // 
             // EditFoodRemoveButton
             // 
-            EditFoodRemoveButton.Location = new Point(378, 128);
+            EditFoodRemoveButton.Location = new Point(260, 193);
             EditFoodRemoveButton.Name = "EditFoodRemoveButton";
-            EditFoodRemoveButton.Size = new Size(72, 29);
+            EditFoodRemoveButton.Size = new Size(190, 56);
             EditFoodRemoveButton.TabIndex = 83;
-            EditFoodRemoveButton.Text = "Remove";
+            EditFoodRemoveButton.Text = "Remove Food";
             EditFoodRemoveButton.UseVisualStyleBackColor = true;
             // 
             // EditFoodDairyCheckBox
@@ -1040,7 +1033,7 @@
             EditFoodListBox.FormattingEnabled = true;
             EditFoodListBox.Location = new Point(9, 45);
             EditFoodListBox.Name = "EditFoodListBox";
-            EditFoodListBox.Size = new Size(232, 124);
+            EditFoodListBox.Size = new Size(232, 204);
             EditFoodListBox.TabIndex = 84;
             // 
             // EditFoodQuantityTextBox
@@ -1117,16 +1110,25 @@
             EditFoodFruitCheckBox.Text = "Fruit";
             EditFoodFruitCheckBox.UseVisualStyleBackColor = true;
             // 
+            // EditMealButton
+            // 
+            EditMealButton.Location = new Point(740, 35);
+            EditMealButton.Name = "EditMealButton";
+            EditMealButton.Size = new Size(77, 84);
+            EditMealButton.TabIndex = 83;
+            EditMealButton.Text = "Edit Selected Meal";
+            EditMealButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1225, 709);
+            Controls.Add(EditMealButton);
             Controls.Add(EditFoodGroup);
             Controls.Add(EditMealGroup);
             Controls.Add(DailyAmountsGroup);
             Controls.Add(SelectedMealAmountsGroup);
-            Controls.Add(ViewOnDateGroup);
             Controls.Add(AddMealGroup);
             Controls.Add(AddFoodGroup);
             Controls.Add(DailyGoalsGroup);
@@ -1149,7 +1151,6 @@
             AddFoodGroup.PerformLayout();
             AddMealGroup.ResumeLayout(false);
             AddMealGroup.PerformLayout();
-            ViewOnDateGroup.ResumeLayout(false);
             SelectedMealAmountsGroup.ResumeLayout(false);
             SelectedMealAmountsGroup.PerformLayout();
             DailyAmountsGroup.ResumeLayout(false);
@@ -1174,8 +1175,6 @@
         private Label DatesLabel;
         private ListBox DateBox;
         private Button AddMealButton;
-        private DateTimePicker ViewMealDateTimePicker;
-        private Button ViewMealsOnDateButton;
         private Label SelectedDateMealsLabel;
         private ListBox MealSelectorBox;
         private Label MealSpecificPercentFruit;
@@ -1236,7 +1235,6 @@
         private Label label6;
         private ListBox FoodForMealBox;
         private Label label23;
-        private GroupBox ViewOnDateGroup;
         private GroupBox SelectedMealAmountsGroup;
         private GroupBox DailyAmountsGroup;
         private GroupBox EditMealGroup;
@@ -1265,5 +1263,8 @@
         private CheckBox EditFoodVegetableCheckBox;
         private CheckBox EditFoodFruitCheckBox;
         private Button AddFoodButton;
+        private ListBox MealTypeBox;
+        private Label label2;
+        private Button EditMealButton;
     }
 }

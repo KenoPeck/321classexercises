@@ -54,28 +54,12 @@ namespace FinalExam
         }
 
         /// <summary>
-        /// Shows a selected meal plan.
-        /// </summary>
-        public void ShowMeal(Plate meal)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        /// <summary>
-        /// Shows the daily goals for the selected date.
-        /// </summary>
-        /// <param name="date">date to display fullfill amounts of goals for.</param>
-        public void ShowDailyGoals(DateTime date)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        /// <summary>
         /// Creates a new food item to add to records of available foods.
         /// </summary>
         /// <param name="name">Name of new food item.</param>
-        /// <param name="categories">Categories of new food item.</param>
-        public void CreateFoodItem(string name, float quantity, List<int>groups)
+        /// <param name="quantity">Quantity of new food item.</param>
+        /// <param name="groups">List of food groups the new food item belongs to.</param>
+        public void CreateFoodItem(string name, float quantity, List<int> groups)
         {
             List<FoodGroup> foodGroups = new List<FoodGroup>();
             foreach (int group in groups)
@@ -87,6 +71,10 @@ namespace FinalExam
             this.planHandler.CreateFoodItem(name, category);
         }
 
+        /// <summary>
+        /// Gets the list of available food items.
+        /// </summary>
+        /// <returns>List of available food items in mealplan.</returns>
         public List<(string, float)> GetFoodItems()
         {
             List<(string, float)> foodItems = new List<(string, float)>();
@@ -99,20 +87,80 @@ namespace FinalExam
         }
 
         /// <summary>
-        /// Creates a new plate to add to the selected date's meals.
+        /// Gets the list of meal types.
         /// </summary>
-        /// <param name="date">Date the meal is planned for.</param>
-        public void CreateMealPlan(List<(string, float)> foods, DateTime date)
+        /// <returns>List of available meal types.</returns>
+        public List<string> GetMealTypes()
         {
-            Plate meal = this.planHandler.CreatePlate(date);
-            foreach ((string name, float servings) in foods)
+            return this.planHandler.GetMealTypes();
+        }
+
+        /// <summary>
+        /// Gets the list of meals for the selected date.
+        /// </summary>
+        /// <param name="date">Date of meals to get.</param>
+        /// <returns>List of tuples conntaining a list of strings/floats representing the food items and a string representing the meal type.</returns>
+        public List<(List<(string, float)>, string)> GetMeals(DateTime date)
+        {
+            List<(List<(string, float)>, string)> meals = new List<(List<(string, float)>, string)>();
+            foreach (Plate plate in this.planHandler.GetMealPlans())
             {
-                Category category = this.planHandler.GetAvailableFoods().Find(x => x.Item1 == name).Item2;
-                FoodItem foodItem = new FoodItem(name, category);
-                foodItem.ChangeServings(servings);
-                planHandler.AddFoodToPlate(meal, foodItem);
+                if (plate.Date != date)
+                {
+                    continue;
+                }
+
+                List<(string, float)> foods = new List<(string, float)>();
+                foreach (FoodItem foodItem in plate.Foods)
+                {
+                    foods.Add((foodItem.Name, foodItem.Category.Servings));
+                }
+
+                meals.Add((foods, plate.MealName));
             }
 
+            return meals;
+        }
+
+        /// <summary>
+        /// Gets the daily goal for a selected food group.
+        /// </summary>
+        /// <param name="group">food group to return servings.</param>
+        /// <param name="date">date to get servings for.</param>
+        /// <returns>float of current servings for food group from all meals on date.</returns>
+        public float GetDailyServings(int group, DateTime date)
+        {
+            return this.planHandler.GetDailyServings((FoodGroup)group, date);
+        }
+
+        /// <summary>
+        /// Gets the servings of a food group from a plate.
+        /// </summary>
+        /// <param name="mealName">name of the plate.</param>
+        /// <param name="date">date the plate is scheduled for.</param>
+        /// <param name="group">foodgroup to get servings for.</param>
+        /// <returns>float of servings for foodgroup from plate.</returns>
+        public float GetPlateServings(string mealName, DateTime date, int group)
+        {
+            return this.planHandler.GetPlateServings(mealName, date, group);
+        }
+
+        /// <summary>
+        /// Creates a new plate to add to the selected date's meals.
+        /// </summary>
+        /// <param name="foods">List of foods to add to the meal.</param>
+        /// <param name="date">Date the meal is planned for.</param>
+        /// <param name="mealType">Type of meal.</param>
+        public void CreateMealPlan(List<(string, float)> foods, DateTime date, string mealType)
+        {
+            Plate meal = this.planHandler.CreatePlate(date, mealType);
+            foreach ((string name, float servings) in foods)
+            {
+                var foodGroups = this.planHandler.GetAvailableFoods().Find(x => x.Item1 == name).Item2.Groups;
+                Category category = new (foodGroups, servings);
+                FoodItem foodItem = new FoodItem(name, category);
+                this.planHandler.AddFoodToPlate(meal, foodItem);
+            }
         }
 
         /// <summary>
@@ -130,7 +178,7 @@ namespace FinalExam
         /// Gets the daily goal for a selected food group.
         /// </summary>
         /// <param name="group">group.</param>
-        /// <returns>servingsize.</returns>
+        /// <returns>servings for goal.</returns>
         public float GetGoal(int group)
         {
             return this.planHandler.GetDailyGoal((FoodGroup)group);
