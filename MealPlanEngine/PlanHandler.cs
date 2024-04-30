@@ -73,6 +73,16 @@ namespace MealPlanEngine
         }
 
         /// <summary>
+        /// Remove a food item from a plate.
+        /// </summary>
+        /// <param name="plate">plate food is being removed from.</param>
+        /// <param name="foodItem">food item being removed from plate.</param>
+        public void RemoveFoodFromPlate(Plate plate, FoodItem foodItem)
+        {
+            plate.RemoveFoodItem(foodItem);
+        }
+
+        /// <summary>
         /// Set daily goal for a selected food category.
         /// </summary>
         /// <param name="category">category the goal is for.</param>

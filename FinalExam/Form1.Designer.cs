@@ -91,6 +91,7 @@
             DairyCheckBox = new CheckBox();
             label3 = new Label();
             DailyGoalsGroup = new GroupBox();
+            UpdateGoalsButton = new Button();
             AddFoodGroup = new GroupBox();
             AddFoodButton = new Button();
             AddMealGroup = new GroupBox();
@@ -128,7 +129,6 @@
             EditFoodProteinCheckBox = new CheckBox();
             EditFoodVegetableCheckBox = new CheckBox();
             EditFoodFruitCheckBox = new CheckBox();
-            EditMealButton = new Button();
             DailyGoalsGroup.SuspendLayout();
             AddFoodGroup.SuspendLayout();
             AddMealGroup.SuspendLayout();
@@ -485,7 +485,7 @@
             FruitDailyGoalTextBox.Name = "FruitDailyGoalTextBox";
             FruitDailyGoalTextBox.Size = new Size(42, 27);
             FruitDailyGoalTextBox.TabIndex = 46;
-            FruitDailyGoalTextBox.KeyPress += FruitDailyGoalTextBox_Enter;
+            FruitDailyGoalTextBox.Text = "0";
             // 
             // label12
             // 
@@ -511,7 +511,7 @@
             VegetableDailyGoalTextBox.Name = "VegetableDailyGoalTextBox";
             VegetableDailyGoalTextBox.Size = new Size(42, 27);
             VegetableDailyGoalTextBox.TabIndex = 48;
-            VegetableDailyGoalTextBox.KeyPress += VegetableDailyGoalTextBox_Enter;
+            VegetableDailyGoalTextBox.Text = "0";
             // 
             // label14
             // 
@@ -528,7 +528,7 @@
             ProteinDailyGoalTextBox.Name = "ProteinDailyGoalTextBox";
             ProteinDailyGoalTextBox.Size = new Size(42, 27);
             ProteinDailyGoalTextBox.TabIndex = 50;
-            ProteinDailyGoalTextBox.KeyPress += ProteinDailyGoalTextBox_Enter;
+            ProteinDailyGoalTextBox.Text = "0";
             // 
             // label15
             // 
@@ -545,7 +545,7 @@
             GrainsDailyGoalTextBox.Name = "GrainsDailyGoalTextBox";
             GrainsDailyGoalTextBox.Size = new Size(42, 27);
             GrainsDailyGoalTextBox.TabIndex = 52;
-            GrainsDailyGoalTextBox.KeyPress += GrainsDailyGoalTextBox_Enter;
+            GrainsDailyGoalTextBox.Text = "0";
             // 
             // label16
             // 
@@ -562,7 +562,7 @@
             DairyDailyGoalTextBox.Name = "DairyDailyGoalTextBox";
             DairyDailyGoalTextBox.Size = new Size(42, 27);
             DairyDailyGoalTextBox.TabIndex = 54;
-            DairyDailyGoalTextBox.KeyPress += DairyDailyGoalTextBox_Enter;
+            DairyDailyGoalTextBox.Text = "0";
             // 
             // label17
             // 
@@ -692,6 +692,7 @@
             // 
             // DailyGoalsGroup
             // 
+            DailyGoalsGroup.Controls.Add(UpdateGoalsButton);
             DailyGoalsGroup.Controls.Add(FruitDailyGoalLabel);
             DailyGoalsGroup.Controls.Add(VegetableDailyGoalLabel);
             DailyGoalsGroup.Controls.Add(ProteinDailyGoalLabel);
@@ -709,10 +710,20 @@
             DailyGoalsGroup.Controls.Add(label16);
             DailyGoalsGroup.Location = new Point(7, 152);
             DailyGoalsGroup.Name = "DailyGoalsGroup";
-            DailyGoalsGroup.Size = new Size(212, 171);
+            DailyGoalsGroup.Size = new Size(212, 198);
             DailyGoalsGroup.TabIndex = 71;
             DailyGoalsGroup.TabStop = false;
             DailyGoalsGroup.Text = "Daily Goals:";
+            // 
+            // UpdateGoalsButton
+            // 
+            UpdateGoalsButton.Location = new Point(20, 165);
+            UpdateGoalsButton.Name = "UpdateGoalsButton";
+            UpdateGoalsButton.Size = new Size(175, 29);
+            UpdateGoalsButton.TabIndex = 87;
+            UpdateGoalsButton.Text = "Update Daily Goals";
+            UpdateGoalsButton.UseVisualStyleBackColor = true;
+            UpdateGoalsButton.Click += UpdateGoalsButton_Click;
             // 
             // AddFoodGroup
             // 
@@ -728,7 +739,7 @@
             AddFoodGroup.Controls.Add(FruitCheckBox);
             AddFoodGroup.Controls.Add(VegetableCheckBox);
             AddFoodGroup.Controls.Add(label22);
-            AddFoodGroup.Location = new Point(5, 330);
+            AddFoodGroup.Location = new Point(5, 347);
             AddFoodGroup.Name = "AddFoodGroup";
             AddFoodGroup.Size = new Size(214, 161);
             AddFoodGroup.TabIndex = 72;
@@ -878,7 +889,7 @@
             SelectedMealAmountsGroup.Size = new Size(365, 189);
             SelectedMealAmountsGroup.TabIndex = 75;
             SelectedMealAmountsGroup.TabStop = false;
-            SelectedMealAmountsGroup.Text = "Daily Goal Amounts From Selected Meal:";
+            SelectedMealAmountsGroup.Text = "Daily Goal Contributions From Selected Meal:";
             // 
             // DailyAmountsGroup
             // 
@@ -915,7 +926,7 @@
             EditMealGroup.Size = new Size(723, 186);
             EditMealGroup.TabIndex = 77;
             EditMealGroup.TabStop = false;
-            EditMealGroup.Text = "Edit A Meal:";
+            EditMealGroup.Text = "Edit Selected Meal:";
             // 
             // EditMealRemoveButton
             // 
@@ -925,6 +936,7 @@
             EditMealRemoveButton.TabIndex = 82;
             EditMealRemoveButton.Text = "Remove Selected From Meal";
             EditMealRemoveButton.UseVisualStyleBackColor = true;
+            EditMealRemoveButton.Click += EditMealRemoveButton_Click;
             // 
             // EditMealAddButton
             // 
@@ -934,6 +946,7 @@
             EditMealAddButton.TabIndex = 81;
             EditMealAddButton.Text = "Add To Meal";
             EditMealAddButton.UseVisualStyleBackColor = true;
+            EditMealAddButton.Click += EditMealAddButton_Click;
             // 
             // EditMealFoodForMealBox
             // 
@@ -1110,21 +1123,11 @@
             EditFoodFruitCheckBox.Text = "Fruit";
             EditFoodFruitCheckBox.UseVisualStyleBackColor = true;
             // 
-            // EditMealButton
-            // 
-            EditMealButton.Location = new Point(740, 35);
-            EditMealButton.Name = "EditMealButton";
-            EditMealButton.Size = new Size(77, 84);
-            EditMealButton.TabIndex = 83;
-            EditMealButton.Text = "Edit Selected Meal";
-            EditMealButton.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1225, 709);
-            Controls.Add(EditMealButton);
             Controls.Add(EditFoodGroup);
             Controls.Add(EditMealGroup);
             Controls.Add(DailyAmountsGroup);
@@ -1265,6 +1268,6 @@
         private Button AddFoodButton;
         private ListBox MealTypeBox;
         private Label label2;
-        private Button EditMealButton;
+        private Button UpdateGoalsButton;
     }
 }

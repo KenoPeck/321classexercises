@@ -70,7 +70,6 @@ namespace FinalExam
             this.DateBox.Hide();
             this.SelectedDateMealsLabel.Hide();
             this.MealSelectorBox.Hide();
-            this.EditMealButton.Hide();
             this.DailyGoalsGroup.Hide();
             this.AddFoodGroup.Hide();
             this.SelectedMealAmountsGroup.Hide();
@@ -118,161 +117,103 @@ namespace FinalExam
             }
         }
 
-        private void FruitDailyGoalTextBox_Enter(object sender, KeyPressEventArgs e)
+        private void UpdatePlateDailyGoals()
         {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                try
-                {
-                    float goal = float.Parse(this.FruitDailyGoalTextBox.Text);
-                    this.currentUser.SetGoal(0, goal);
-
-                    // Updating daily goal percentages
-                    if (this.DateBox.SelectedItem != null)
-                    {
-                        DateTime selectedDate = (DateTime)this.DateBox.SelectedItem;
-                        float dailyFruit = this.currentUser.GetDailyServings(0, selectedDate);
-                        this.FruitPercentLabelDaily.Text = this.currentUser.GetGoal(0) == 0 ? "0%" : (dailyFruit / this.currentUser.GetGoal(0) * 100).ToString() + "%";
-
-                        // Updating selected meal daily goal percentages
-                        if (this.MealSelectorBox.SelectedItem != null)
-                        {
-                            #pragma warning disable CS8604 // Possible null reference argument.
-                            float plateFruit = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), selectedDate, 0);
-                            #pragma warning restore CS8604 // Possible null reference argument.
-                            this.FruitPercentLabel.Text = this.currentUser.GetGoal(0) == 0 ? "0%" : (plateFruit / this.currentUser.GetGoal(0) * 100).ToString() + "%";
-                        }
-                    }
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Please enter a number.");
-                }
-            }
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8605 // Unboxing a possibly null value.
+            float plateFruit = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, 0);
+            this.FruitPercentLabel.Text = this.currentUser.GetGoal(0) == 0 ? "0%" : (plateFruit / this.currentUser.GetGoal(0) * 100).ToString() + "%";
+            float plateVegetable = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, 1);
+            this.VegetablePercentLabel.Text = this.currentUser.GetGoal(1) == 0 ? "0%" : (plateVegetable / this.currentUser.GetGoal(1) * 100).ToString() + "%";
+            float plateProtein = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, 2);
+            this.ProteinPercentLabel.Text = this.currentUser.GetGoal(2) == 0 ? "0%" : (plateProtein / this.currentUser.GetGoal(2) * 100).ToString() + "%";
+            float plateGrains = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, 3);
+            this.GrainsPercentLabel.Text = this.currentUser.GetGoal(3) == 0 ? "0%" : (plateGrains / this.currentUser.GetGoal(3) * 100).ToString() + "%";
+            float plateDairy = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, 4);
+            this.DairyPercentLabel.Text = this.currentUser.GetGoal(4) == 0 ? "0%" : (plateDairy / this.currentUser.GetGoal(4) * 100).ToString() + "%";
+#pragma warning restore CS8605 // Unboxing a possibly null value.
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
-        private void VegetableDailyGoalTextBox_Enter(object sender, KeyPressEventArgs e)
+        private void UpdateDailyGoals(DateTime selectedDate)
         {
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                try
-                {
-                    float goal = float.Parse(this.VegetableDailyGoalTextBox.Text);
-                    this.currentUser.SetGoal(1, goal);
-
-                    // Updating daily goal percentages
-                    if (this.DateBox.SelectedItem != null)
-                    {
-                        DateTime selectedDate = (DateTime)this.DateBox.SelectedItem;
-                        float dailyVegetable = this.currentUser.GetDailyServings(1, selectedDate);
-                        this.VegetablePercentLabelDaily.Text = this.currentUser.GetGoal(1) == 0 ? "0%" : (dailyVegetable / this.currentUser.GetGoal(1) * 100).ToString() + "%";
-
-                        // Updating selected meal daily goal percentages
-                        if (this.MealSelectorBox.SelectedItem != null)
-                        {
-                            #pragma warning disable CS8604 // Possible null reference argument.
-                            float plateVegetable = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), selectedDate, 1);
-                            #pragma warning restore CS8604 // Possible null reference argument.
-                            this.VegetablePercentLabel.Text = this.currentUser.GetGoal(1) == 0 ? "0%" : (plateVegetable / this.currentUser.GetGoal(1) * 100).ToString() + "%";
-                        }
-                    }
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Please enter a number.");
-                }
-            }
+            float dailyFruit = this.currentUser.GetDailyServings(0, selectedDate);
+            this.FruitPercentLabelDaily.Text = this.currentUser.GetGoal(0) == 0 ? "0%" : (dailyFruit / this.currentUser.GetGoal(0) * 100).ToString() + "%";
+            float dailyVegetable = this.currentUser.GetDailyServings(1, selectedDate);
+            this.VegetablePercentLabelDaily.Text = this.currentUser.GetGoal(1) == 0 ? "0%" : (dailyVegetable / this.currentUser.GetGoal(1) * 100).ToString() + "%";
+            float dailyProtein = this.currentUser.GetDailyServings(2, selectedDate);
+            this.ProteinPercentLabelDaily.Text = this.currentUser.GetGoal(2) == 0 ? "0%" : (dailyProtein / this.currentUser.GetGoal(2) * 100).ToString() + "%";
+            float dailyGrains = this.currentUser.GetDailyServings(3, selectedDate);
+            this.GrainsPercentLabelDaily.Text = this.currentUser.GetGoal(3) == 0 ? "0%" : (dailyGrains / this.currentUser.GetGoal(3) * 100).ToString() + "%";
+            float dailyDairy = this.currentUser.GetDailyServings(4, selectedDate);
+            this.DairyPercentLabelDaily.Text = this.currentUser.GetGoal(4) == 0 ? "0%" : (dailyDairy / this.currentUser.GetGoal(4) * 100).ToString() + "%";
         }
 
-        private void ProteinDailyGoalTextBox_Enter(object sender, KeyPressEventArgs e)
+        private void UpdateGoalsButton_Click(object sender, EventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter)
+            float fruit = 0;
+            float vegetable = 0;
+            float protein = 0;
+            float grains = 0;
+            float dairy = 0;
+            if (this.FruitDailyGoalTextBox.Text != string.Empty)
             {
-                try
+                if (!float.TryParse(this.FruitDailyGoalTextBox.Text, out fruit))
                 {
-                    float goal = float.Parse(this.ProteinDailyGoalTextBox.Text);
-                    this.currentUser.SetGoal(2, goal);
-                    if (this.DateBox.SelectedItem != null)
-                    {
-                        DateTime selectedDate = (DateTime)this.DateBox.SelectedItem;
-                        float dailyProtein = this.currentUser.GetDailyServings(2, selectedDate);
-                        this.ProteinPercentLabelDaily.Text = this.currentUser.GetGoal(2) == 0 ? "0%" : (dailyProtein / this.currentUser.GetGoal(2) * 100).ToString() + "%";
-
-                        // Updating selected meal daily goal percentages
-                        if (this.MealSelectorBox.SelectedItem != null)
-                        {
-                            #pragma warning disable CS8604 // Possible null reference argument.
-                            float plateProtein = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), selectedDate, 2);
-                            #pragma warning restore CS8604 // Possible null reference argument.
-                            this.ProteinPercentLabel.Text = this.currentUser.GetGoal(2) == 0 ? "0%" : (plateProtein / this.currentUser.GetGoal(2) * 100).ToString() + "%";
-                        }
-                    }
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Please enter a number.");
+                    MessageBox.Show("Please enter a number for fruit goal.");
+                    return;
                 }
             }
-        }
 
-        private void GrainsDailyGoalTextBox_Enter(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
+            if (this.VegetableDailyGoalTextBox.Text != string.Empty)
             {
-                try
+                if (!float.TryParse(this.VegetableDailyGoalTextBox.Text, out vegetable))
                 {
-                    float goal = float.Parse(this.GrainsDailyGoalTextBox.Text);
-                    this.currentUser.SetGoal(3, goal);
-                    if (this.DateBox.SelectedItem != null)
-                    {
-                        DateTime selectedDate = (DateTime)this.DateBox.SelectedItem;
-                        float dailyGrains = this.currentUser.GetDailyServings(3, selectedDate);
-                        this.GrainsPercentLabelDaily.Text = this.currentUser.GetGoal(3) == 0 ? "0%" : (dailyGrains / this.currentUser.GetGoal(3) * 100).ToString() + "%";
-
-                        // Updating selected meal daily goal percentages
-                        if (this.MealSelectorBox.SelectedItem != null)
-                        {
-                            #pragma warning disable CS8604 // Possible null reference argument.
-                            float plateGrains = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), selectedDate, 3);
-                            #pragma warning restore CS8604 // Possible null reference argument.
-                            this.GrainsPercentLabel.Text = this.currentUser.GetGoal(3) == 0 ? "0%" : (plateGrains / this.currentUser.GetGoal(3) * 100).ToString() + "%";
-                        }
-                    }
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Please enter a number.");
+                    MessageBox.Show("Please enter a number for vegetable goal.");
+                    return;
                 }
             }
-        }
 
-        private void DairyDailyGoalTextBox_Enter(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)Keys.Enter)
+            if (this.ProteinDailyGoalTextBox.Text != string.Empty)
             {
-                try
+                if (!float.TryParse(this.ProteinDailyGoalTextBox.Text, out protein))
                 {
-                    float goal = float.Parse(this.DairyDailyGoalTextBox.Text);
-                    this.currentUser.SetGoal(4, goal);
-                    if (this.DateBox.SelectedItem != null)
-                    {
-                        DateTime selectedDate = (DateTime)this.DateBox.SelectedItem;
-                        float dailyDairy = this.currentUser.GetDailyServings(4, selectedDate);
-                        this.DairyPercentLabelDaily.Text = this.currentUser.GetGoal(4) == 0 ? "0%" : (dailyDairy / this.currentUser.GetGoal(4) * 100).ToString() + "%";
-
-                        // Updating selected meal daily goal percentages
-                        if (this.MealSelectorBox.SelectedItem != null)
-                        {
-                            #pragma warning disable CS8604 // Possible null reference argument.
-                            float plateDairy = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), selectedDate, 4);
-                            #pragma warning restore CS8604 // Possible null reference argument.
-                            this.DairyPercentLabel.Text = this.currentUser.GetGoal(4) == 0 ? "0%" : (plateDairy / this.currentUser.GetGoal(4) * 100).ToString() + "%";
-                        }
-                    }
+                    MessageBox.Show("Please enter a number for protein goal.");
+                    return;
                 }
-                catch (FormatException)
+            }
+
+            if (this.GrainsDailyGoalTextBox.Text != string.Empty)
+            {
+                if (!float.TryParse(this.GrainsDailyGoalTextBox.Text, out grains))
                 {
-                    MessageBox.Show("Please enter a number.");
+                    MessageBox.Show("Please enter a number for grains goal.");
+                    return;
+                }
+            }
+
+            if (this.DairyDailyGoalTextBox.Text != string.Empty)
+            {
+                if (!float.TryParse(this.DairyDailyGoalTextBox.Text, out dairy))
+                {
+                    MessageBox.Show("Please enter a number for dairy goal.");
+                    return;
+                }
+            }
+
+            this.currentUser.SetGoal(0, fruit);
+            this.currentUser.SetGoal(1, vegetable);
+            this.currentUser.SetGoal(2, protein);
+            this.currentUser.SetGoal(3, grains);
+            this.currentUser.SetGoal(4, dairy);
+            if (this.DateBox.SelectedItem != null)
+            {
+                this.UpdateDailyGoals((DateTime)this.DateBox.SelectedItem);
+                if (this.MealSelectorBox.SelectedItem != null)
+                {
+                    this.UpdatePlateDailyGoals();
                 }
             }
         }
@@ -325,7 +266,7 @@ namespace FinalExam
 
                 // Creating food item and adding to available food fields
                 this.currentUser.CreateFoodItem(this.FoodNameTextBox.Text, float.Parse(this.FoodQuantityTextBox.Text), groups);
-                string food = this.FoodNameTextBox.Text + " - " + this.FoodQuantityTextBox.Text;
+                string food = this.FoodNameTextBox.Text + " - " + this.FoodQuantityTextBox.Text + " Servings";
                 this.AvailableFoodBox.Items.Add(food);
                 this.EditMealFoodBox.Items.Add(food);
                 this.EditFoodListBox.Items.Add(food);
@@ -360,7 +301,7 @@ namespace FinalExam
             {
                 MessageBox.Show("Please enter a quantity greater than 0.");
             }
-            else if (float.Parse(this.AddMealQuantityTextBox.Text) > float.Parse(this.AvailableFoodBox.SelectedItem.ToString().Split(" - ")[1]))
+            else if (float.Parse(this.AddMealQuantityTextBox.Text) > float.Parse(this.AvailableFoodBox.SelectedItem.ToString().Split(" - ")[1].Split(" ")[0]))
             {
                 MessageBox.Show("Please enter a quantity less than or equal to the available quantity.");
             }
@@ -371,7 +312,13 @@ namespace FinalExam
                 string[] foodSplit = food.Split(" - ");
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
                 string foodName = foodSplit[0];
-                string selectedFood = foodName + " - " + this.AddMealQuantityTextBox.Text.ToString();
+                if (this.selectedFoods.Any(x => x.Item1 == foodName))
+                {
+                    MessageBox.Show("Food already added to meal.");
+                    return;
+                }
+
+                string selectedFood = foodName + " - " + this.AddMealQuantityTextBox.Text.ToString() + " Servings";
                 float foodQuantity = float.Parse(this.AddMealQuantityTextBox.Text.ToString());
 
                 // Adding food to selectedFoods and FoodForMealBox
@@ -381,7 +328,6 @@ namespace FinalExam
                 // Clearing relevant fields
                 this.AvailableFoodBox.ClearSelected();
                 this.AddMealQuantityTextBox.Clear();
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             }
         }
@@ -395,11 +341,9 @@ namespace FinalExam
             else
             {
                 DateTime selectedDate = this.AddMealDateTimePicker.Value.Date;
-#pragma warning disable CS8602 // Dereference of a possibly null reference: this.MealTypeBox.SelectedItem has been checked for null.
 #pragma warning disable CS8604 // Possible null reference argument.
                 this.currentUser.CreateMealPlan(this.selectedFoods, selectedDate, this.MealTypeBox.SelectedItem.ToString());
 #pragma warning restore CS8604 // Possible null reference argument.
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 if (this.DateBox.Items.Contains(selectedDate) == false)
                 {
                     this.DateBox.Items.Add(selectedDate);
@@ -414,17 +358,7 @@ namespace FinalExam
 
                 if (this.DateBox.SelectedItem != null)
                 {
-                    // Updating daily goal percentages
-                    float dailyFruit = this.currentUser.GetDailyServings(0, selectedDate);
-                    this.FruitPercentLabelDaily.Text = this.currentUser.GetGoal(0) == 0 ? "0%" : (dailyFruit / this.currentUser.GetGoal(0) * 100).ToString() + "%";
-                    float dailyVegetable = this.currentUser.GetDailyServings(1, selectedDate);
-                    this.VegetablePercentLabelDaily.Text = this.currentUser.GetGoal(1) == 0 ? "0%" : (dailyVegetable / this.currentUser.GetGoal(1) * 100).ToString() + "%";
-                    float dailyProtein = this.currentUser.GetDailyServings(2, selectedDate);
-                    this.ProteinPercentLabelDaily.Text = this.currentUser.GetGoal(2) == 0 ? "0%" : (dailyProtein / this.currentUser.GetGoal(2) * 100).ToString() + "%";
-                    float dailyGrains = this.currentUser.GetDailyServings(3, selectedDate);
-                    this.GrainsPercentLabelDaily.Text = this.currentUser.GetGoal(3) == 0 ? "0%" : (dailyGrains / this.currentUser.GetGoal(3) * 100).ToString() + "%";
-                    float dailyDairy = this.currentUser.GetDailyServings(4, selectedDate);
-                    this.DairyPercentLabelDaily.Text = this.currentUser.GetGoal(4) == 0 ? "0%" : (dailyDairy / this.currentUser.GetGoal(4) * 100).ToString() + "%";
+                    this.UpdateDailyGoals(selectedDate);
                 }
             }
         }
@@ -444,39 +378,103 @@ namespace FinalExam
             }
 
             // Updating daily goal percentages
-            this.DailyAmountsGroup.Text = "Daily Amounts for " + selectedDate.ToShortDateString();
-            float dailyFruit = this.currentUser.GetDailyServings(0, selectedDate);
-            this.FruitPercentLabelDaily.Text = this.currentUser.GetGoal(0) == 0 ? "0%" : (dailyFruit / this.currentUser.GetGoal(0) * 100).ToString() + "%";
-            float dailyVegetable = this.currentUser.GetDailyServings(1, selectedDate);
-            this.VegetablePercentLabelDaily.Text = this.currentUser.GetGoal(1) == 0 ? "0%" : (dailyVegetable / this.currentUser.GetGoal(1) * 100).ToString() + "%";
-            float dailyProtein = this.currentUser.GetDailyServings(2, selectedDate);
-            this.ProteinPercentLabelDaily.Text = this.currentUser.GetGoal(2) == 0 ? "0%" : (dailyProtein / this.currentUser.GetGoal(2) * 100).ToString() + "%";
-            float dailyGrains = this.currentUser.GetDailyServings(3, selectedDate);
-            this.GrainsPercentLabelDaily.Text = this.currentUser.GetGoal(3) == 0 ? "0%" : (dailyGrains / this.currentUser.GetGoal(3) * 100).ToString() + "%";
-            float dailyDairy = this.currentUser.GetDailyServings(4, selectedDate);
-            this.DairyPercentLabelDaily.Text = this.currentUser.GetGoal(4) == 0 ? "0%" : (dailyDairy / this.currentUser.GetGoal(4) * 100).ToString() + "%";
+            this.DailyAmountsGroup.Text = "Daily Goal Levels for " + selectedDate.ToShortDateString() + ":";
+            this.UpdateDailyGoals(selectedDate);
         }
 
         private void MealSelectorBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Possible null reference argument.
-#pragma warning disable CS8605 // Unboxing a possibly null value.
 
             // Updating selected meal daily goal percentages
-            float plateFruit = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, 0);
-            this.FruitPercentLabel.Text = this.currentUser.GetGoal(0) == 0 ? "0%" : (plateFruit / this.currentUser.GetGoal(0) * 100).ToString() + "%";
-            float plateVegetable = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, 1);
-            this.VegetablePercentLabel.Text = this.currentUser.GetGoal(1) == 0 ? "0%" : (plateVegetable / this.currentUser.GetGoal(1) * 100).ToString() + "%";
-            float plateProtein = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, 2);
-            this.ProteinPercentLabel.Text = this.currentUser.GetGoal(2) == 0 ? "0%" : (plateProtein / this.currentUser.GetGoal(2) * 100).ToString() + "%";
-            float plateGrains = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, 3);
-            this.GrainsPercentLabel.Text = this.currentUser.GetGoal(3) == 0 ? "0%" : (plateGrains / this.currentUser.GetGoal(3) * 100).ToString() + "%";
-            float plateDairy = this.currentUser.GetPlateServings(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, 4);
-            this.DairyPercentLabel.Text = this.currentUser.GetGoal(4) == 0 ? "0%" : (plateDairy / this.currentUser.GetGoal(4) * 100).ToString() + "%";
-            this.SelectedMealAmountsGroup.Text = "Selected Meal Amounts for " + this.MealSelectorBox.SelectedItem.ToString();
+            this.UpdatePlateDailyGoals();
+            this.SelectedMealAmountsGroup.Text = "Daily Goal Contributions from " + this.MealSelectorBox.SelectedItem.ToString() + ":";
+
+            this.EditMealFoodForMealBox.Items.Clear();
+            this.EditMealGroup.Text = "Edit " + this.MealSelectorBox.SelectedItem.ToString() + " On " + this.DateBox.SelectedItem.ToString();
+            foreach ((string, float) food in this.currentUser.GetMealFoods(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem))
+            {
+                this.EditMealFoodForMealBox.Items.Add(food.Item1 + " - " + food.Item2 + " Servings");
+            }
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        }
+
+        private void EditMealRemoveButton_Click(object sender, EventArgs e)
+        {
+            if (this.EditMealFoodForMealBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a food item.");
+            }
+            else
+            {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8605 // Unboxing a possibly null value.
+                string food = this.EditMealFoodForMealBox.SelectedItem.ToString();
+                string[] foodSplit = food.Split(" - ");
+                string foodName = foodSplit[0];
+                this.currentUser.RemoveFoodFromPlate(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, foodName);
+                this.EditMealFoodForMealBox.Items.Remove(food);
+                this.UpdateDailyGoals((DateTime)this.DateBox.SelectedItem);
+                this.UpdatePlateDailyGoals();
+#pragma warning restore CS8605 // Unboxing a possibly null value.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            }
+        }
+
+        private void EditMealAddButton_Click(object sender, EventArgs e)
+        {
+            if (this.EditMealFoodBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a food item.");
+            }
+            else if (this.EditMealQuantityTextBox.Text == string.Empty)
+            {
+                MessageBox.Show("Please enter a quantity.");
+            }
+            else if (!float.TryParse(this.EditMealQuantityTextBox.Text, out _))
+            {
+                MessageBox.Show("Please enter a number for quantity.");
+            }
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            else if (float.Parse(this.EditMealQuantityTextBox.Text) <= 0)
+            {
+                MessageBox.Show("Please enter a quantity greater than 0.");
+            }
+            else if (float.Parse(this.EditMealQuantityTextBox.Text) > float.Parse(this.EditMealFoodBox.SelectedItem.ToString().Split(" - ")[1].Split(" ")[0]))
+            {
+                MessageBox.Show("Please enter a quantity less than or equal to the available quantity.");
+            }
+            else
+            {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8605 // Unboxing a possibly null value.
+                string food = this.EditMealFoodBox.SelectedItem.ToString();
+                string[] foodSplit = food.Split(" - ");
+                string foodName = foodSplit[0];
+                if (this.currentUser.GetMealFoods(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem).Any(x => x.Item1 == foodName))
+                {
+                    MessageBox.Show("Food already added to meal.");
+                    return;
+                }
+
+                string selectedFood = foodName + " - " + this.EditMealQuantityTextBox.Text.ToString() + " Servings";
+                float foodQuantity = float.Parse(this.EditMealQuantityTextBox.Text.ToString());
+                this.currentUser.AddFoodToPlate(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, foodName, foodQuantity);
+                this.EditMealFoodForMealBox.Items.Add(selectedFood);
+                this.UpdateDailyGoals((DateTime)this.DateBox.SelectedItem);
+                this.UpdatePlateDailyGoals();
+                this.EditMealQuantityTextBox.Clear();
+            }
 #pragma warning restore CS8605 // Unboxing a possibly null value.
 #pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
     }

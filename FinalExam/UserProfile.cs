@@ -146,6 +146,29 @@ namespace FinalExam
         }
 
         /// <summary>
+        /// Gets the list of foods for a meal.
+        /// </summary>
+        /// <param name="mealName">Name of meal.</param>
+        /// <param name="date">Date of meal.</param>
+        /// <returns>List of (string,float) tuples containing the food in the meal.</returns>
+        public List<(string, float)> GetMealFoods(string mealName, DateTime date)
+        {
+            List<(string, float)> foods = new List<(string, float)>();
+            foreach (Plate plate in this.planHandler.GetMealPlans())
+            {
+                if (plate.MealName == mealName && plate.Date == date)
+                {
+                    foreach (FoodItem foodItem in plate.Foods)
+                    {
+                        foods.Add((foodItem.Name, foodItem.Category.Servings));
+                    }
+                }
+            }
+
+            return foods;
+        }
+
+        /// <summary>
         /// Creates a new plate to add to the selected date's meals.
         /// </summary>
         /// <param name="foods">List of foods to add to the meal.</param>
@@ -161,6 +184,45 @@ namespace FinalExam
                 FoodItem foodItem = new FoodItem(name, category);
                 this.planHandler.AddFoodToPlate(meal, foodItem);
             }
+        }
+
+        /// <summary>
+        /// Adds a food item to a plate.
+        /// </summary>
+        /// <param name="mealName">name of meal food is being added to.</param>
+        /// <param name="date">date of meal food is being added to.</param>
+        /// <param name="foodName">name of food being added.</param>
+        /// <param name="servings">servings of food being added.</param>
+        public void AddFoodToPlate(string mealName, DateTime date, string foodName, float servings)
+        {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8604 // Possible null reference argument.
+            Plate plate = this.planHandler.GetMealPlans().Find(x => x.Date == date && x.MealName == mealName);
+            var foodGroups = this.planHandler.GetAvailableFoods().Find(x => x.Item1 == foodName).Item2.Groups;
+            Category category = new (foodGroups, servings);
+            FoodItem foodItem = new FoodItem(foodName, category);
+            this.planHandler.AddFoodToPlate(plate, foodItem);
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+        }
+
+        /// <summary>
+        /// Removes a food item from a plate.
+        /// </summary>
+        /// <param name="mealName">name of meal food is being removed from.</param>
+        /// <param name="date">date of meal food is being removed from.</param>
+        /// <param name="foodName">name of food being removed.</param>
+        public void RemoveFoodFromPlate(string mealName, DateTime date, string foodName)
+        {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            Plate plate = this.planHandler.GetMealPlans().Find(x => x.Date == date && x.MealName == mealName);
+            FoodItem foodItem = plate.Foods.Find(x => x.Name == foodName);
+            this.planHandler.RemoveFoodFromPlate(plate, foodItem);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
         }
 
         /// <summary>
@@ -182,6 +244,16 @@ namespace FinalExam
         public float GetGoal(int group)
         {
             return this.planHandler.GetDailyGoal((FoodGroup)group);
+        }
+
+        /// <summary>
+        /// Changes the servings of a food item.
+        /// </summary>
+        /// <param name="foodName">name of food item being altered.</param>
+        /// <param name="servings">new servings for food item.</param>
+        public void ChangeFoodItemServings(string foodName, float servings)
+        {
+            this.planHandler.ChangeFoodItemServings(foodName, servings);
         }
     }
 }
