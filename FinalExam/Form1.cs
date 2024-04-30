@@ -220,6 +220,7 @@ namespace FinalExam
 
         private void AddFoodButton_Click(object sender, EventArgs e)
         {
+            float foodQuantity = 0;
             if (this.FoodNameTextBox.Text == string.Empty)
             {
                 MessageBox.Show("Please enter a food name.");
@@ -228,7 +229,7 @@ namespace FinalExam
             {
                 MessageBox.Show("Please enter a quantity.");
             }
-            else if (!float.TryParse(this.FoodQuantityTextBox.Text, out _))
+            else if (!float.TryParse(this.FoodQuantityTextBox.Text, out foodQuantity))
             {
                 MessageBox.Show("Please enter a number for quantity.");
             }
@@ -265,7 +266,7 @@ namespace FinalExam
                 }
 
                 // Creating food item and adding to available food fields
-                this.currentUser.CreateFoodItem(this.FoodNameTextBox.Text, float.Parse(this.FoodQuantityTextBox.Text), groups);
+                this.currentUser.CreateFoodItem(this.FoodNameTextBox.Text, foodQuantity, groups);
                 string food = this.FoodNameTextBox.Text + " - " + this.FoodQuantityTextBox.Text + " Servings";
                 this.AvailableFoodBox.Items.Add(food);
                 this.EditMealFoodBox.Items.Add(food);
@@ -284,6 +285,7 @@ namespace FinalExam
 
         private void AddToMealButton_Click(object sender, EventArgs e)
         {
+            float foodQuantity = 0;
             if (this.AvailableFoodBox.SelectedItem == null)
             {
                 MessageBox.Show("Please select a food item.");
@@ -292,16 +294,16 @@ namespace FinalExam
             {
                 MessageBox.Show("Please enter a quantity.");
             }
-            else if (!float.TryParse(this.AddMealQuantityTextBox.Text, out _))
+            else if (!float.TryParse(this.AddMealQuantityTextBox.Text, out foodQuantity))
             {
                 MessageBox.Show("Please enter a number for quantity.");
             }
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            else if (float.Parse(this.AddMealQuantityTextBox.Text) <= 0)
+            else if (foodQuantity <= 0)
             {
                 MessageBox.Show("Please enter a quantity greater than 0.");
             }
-            else if (float.Parse(this.AddMealQuantityTextBox.Text) > float.Parse(this.AvailableFoodBox.SelectedItem.ToString().Split(" - ")[1].Split(" ")[0]))
+            else if (foodQuantity > float.Parse(this.AvailableFoodBox.SelectedItem.ToString().Split(" - ")[1].Split(" ")[0]))
             {
                 MessageBox.Show("Please enter a quantity less than or equal to the available quantity.");
             }
@@ -319,11 +321,22 @@ namespace FinalExam
                 }
 
                 string selectedFood = foodName + " - " + this.AddMealQuantityTextBox.Text.ToString() + " Servings";
-                float foodQuantity = float.Parse(this.AddMealQuantityTextBox.Text.ToString());
 
                 // Adding food to selectedFoods and FoodForMealBox
                 this.selectedFoods.Add((foodName, foodQuantity));
                 this.FoodForMealBox.Items.Add(selectedFood);
+
+                // Subtracting food quantity from available food
+                float availableQuantity = float.Parse(foodSplit[1].Split(" ")[0]);
+                float newQuantity = availableQuantity - foodQuantity;
+                string newFood = foodName + " - " + newQuantity.ToString() + " Servings";
+                this.AvailableFoodBox.Items.Remove(food);
+                this.AvailableFoodBox.Items.Add(newFood);
+                this.EditMealFoodBox.Items.Remove(food);
+                this.EditMealFoodBox.Items.Add(newFood);
+                this.EditFoodListBox.Items.Remove(food);
+                this.EditFoodListBox.Items.Add(newFood);
+                this.currentUser.ChangeFoodItemServings(foodName, newQuantity);
 
                 // Clearing relevant fields
                 this.AvailableFoodBox.ClearSelected();
@@ -418,6 +431,28 @@ namespace FinalExam
                 string foodName = foodSplit[0];
                 this.currentUser.RemoveFoodFromPlate(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, foodName);
                 this.EditMealFoodForMealBox.Items.Remove(food);
+
+                // Adding food back to available food
+                foreach (string foodItem in this.EditMealFoodBox.Items)
+                {
+                    if (foodItem.Contains(foodName))
+                    {
+                        string[] foodItemSplit = foodItem.Split(" - ");
+                        float availableQuantity = float.Parse(foodItemSplit[1].Split(" ")[0]);
+                        float foodQuantity = float.Parse(foodSplit[1].Split(" ")[0]);
+                        float newQuantity = availableQuantity + foodQuantity;
+                        string newFood = foodName + " - " + newQuantity.ToString() + " Servings";
+                        this.AvailableFoodBox.Items.Remove(foodItem);
+                        this.AvailableFoodBox.Items.Add(newFood);
+                        this.EditMealFoodBox.Items.Remove(foodItem);
+                        this.EditMealFoodBox.Items.Add(newFood);
+                        this.EditFoodListBox.Items.Remove(foodItem);
+                        this.EditFoodListBox.Items.Add(newFood);
+                        this.currentUser.ChangeFoodItemServings(foodName, newQuantity);
+                        break;
+                    }
+                }
+
                 this.UpdateDailyGoals((DateTime)this.DateBox.SelectedItem);
                 this.UpdatePlateDailyGoals();
 #pragma warning restore CS8605 // Unboxing a possibly null value.
@@ -429,6 +464,7 @@ namespace FinalExam
 
         private void EditMealAddButton_Click(object sender, EventArgs e)
         {
+            float foodQuantity = 0;
             if (this.EditMealFoodBox.SelectedItem == null)
             {
                 MessageBox.Show("Please select a food item.");
@@ -437,16 +473,16 @@ namespace FinalExam
             {
                 MessageBox.Show("Please enter a quantity.");
             }
-            else if (!float.TryParse(this.EditMealQuantityTextBox.Text, out _))
+            else if (!float.TryParse(this.EditMealQuantityTextBox.Text, out foodQuantity))
             {
                 MessageBox.Show("Please enter a number for quantity.");
             }
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-            else if (float.Parse(this.EditMealQuantityTextBox.Text) <= 0)
+            else if (foodQuantity <= 0)
             {
                 MessageBox.Show("Please enter a quantity greater than 0.");
             }
-            else if (float.Parse(this.EditMealQuantityTextBox.Text) > float.Parse(this.EditMealFoodBox.SelectedItem.ToString().Split(" - ")[1].Split(" ")[0]))
+            else if (foodQuantity > float.Parse(this.EditMealFoodBox.SelectedItem.ToString().Split(" - ")[1].Split(" ")[0]))
             {
                 MessageBox.Show("Please enter a quantity less than or equal to the available quantity.");
             }
@@ -465,9 +501,21 @@ namespace FinalExam
                 }
 
                 string selectedFood = foodName + " - " + this.EditMealQuantityTextBox.Text.ToString() + " Servings";
-                float foodQuantity = float.Parse(this.EditMealQuantityTextBox.Text.ToString());
                 this.currentUser.AddFoodToPlate(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, foodName, foodQuantity);
                 this.EditMealFoodForMealBox.Items.Add(selectedFood);
+
+                // Subtracting food quantity from available food
+                float availableQuantity = float.Parse(foodSplit[1].Split(" ")[0]);
+                float newQuantity = availableQuantity - foodQuantity;
+                string newFood = foodName + " - " + newQuantity.ToString() + " Servings";
+                this.AvailableFoodBox.Items.Remove(food);
+                this.AvailableFoodBox.Items.Add(newFood);
+                this.EditMealFoodBox.Items.Remove(food);
+                this.EditMealFoodBox.Items.Add(newFood);
+                this.EditFoodListBox.Items.Remove(food);
+                this.EditFoodListBox.Items.Add(newFood);
+                this.currentUser.ChangeFoodItemServings(foodName, newQuantity);
+
                 this.UpdateDailyGoals((DateTime)this.DateBox.SelectedItem);
                 this.UpdatePlateDailyGoals();
                 this.EditMealQuantityTextBox.Clear();
