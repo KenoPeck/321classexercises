@@ -154,6 +154,31 @@ namespace MealPlanEngine
         }
 
         /// <summary>
+        /// Change the food groups of a food item in all plates.
+        /// </summary>
+        /// <param name="name">food name.</param>
+        /// <param name="groups">List of food groups.</param>
+        public void ChangeFoodItemGroupsInPlates(string name, List<FoodGroup> groups)
+        {
+            foreach (Plate plate in this.mealPlans)
+            {
+                if (plate.Foods.Any(x => x.Name == name))
+                {
+                    foreach (FoodItem food in plate.Foods)
+                    {
+                        if (food.Name == name)
+                        {
+                            plate.RemoveFoodItem(food);
+                            food.ChangeFoodGroups(groups);
+                            plate.AddFoodItem(food);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Add a new FoodItem to the list of available foods.
         /// </summary>
         /// <param name="name">name of the food item being created.</param>
@@ -210,6 +235,16 @@ namespace MealPlanEngine
         /// <param name="name">Name of the food item being deleted.</param>
         public void DeleteFoodItem(string name)
         {
+            foreach (Plate plate in this.mealPlans)
+            {
+                if (plate.Foods.Any(x => x.Name == name))
+                {
+#pragma warning disable CS8604 // Possible null reference argument.
+                    plate.RemoveFoodItem(plate.Foods.Find(x => x.Name == name));
+#pragma warning restore CS8604 // Possible null reference argument.
+                }
+            }
+
             this.availableFoods.RemoveAll(x => x.Name == name);
         }
 

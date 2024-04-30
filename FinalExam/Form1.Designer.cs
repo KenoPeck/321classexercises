@@ -567,7 +567,7 @@
             // label17
             // 
             label17.AutoSize = true;
-            label17.Location = new Point(6, 24);
+            label17.Location = new Point(6, 142);
             label17.Name = "label17";
             label17.Size = new Size(200, 20);
             label17.TabIndex = 56;
@@ -576,7 +576,7 @@
             // AvailableFoodBox
             // 
             AvailableFoodBox.FormattingEnabled = true;
-            AvailableFoodBox.Location = new Point(6, 45);
+            AvailableFoodBox.Location = new Point(6, 163);
             AvailableFoodBox.Name = "AvailableFoodBox";
             AvailableFoodBox.Size = new Size(232, 104);
             AvailableFoodBox.TabIndex = 57;
@@ -781,7 +781,7 @@
             // MealTypeBox
             // 
             MealTypeBox.FormattingEnabled = true;
-            MealTypeBox.Location = new Point(6, 172);
+            MealTypeBox.Location = new Point(6, 40);
             MealTypeBox.Name = "MealTypeBox";
             MealTypeBox.Size = new Size(232, 104);
             MealTypeBox.TabIndex = 82;
@@ -789,7 +789,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(6, 152);
+            label2.Location = new Point(6, 20);
             label2.Name = "label2";
             label2.Size = new Size(199, 20);
             label2.TabIndex = 81;
@@ -1012,6 +1012,7 @@
             EditFoodUpdateButton.TabIndex = 85;
             EditFoodUpdateButton.Text = "Update Food";
             EditFoodUpdateButton.UseVisualStyleBackColor = true;
+            EditFoodUpdateButton.Click += EditFoodUpdateButton_Click;
             // 
             // label26
             // 
@@ -1030,6 +1031,7 @@
             EditFoodRemoveButton.TabIndex = 83;
             EditFoodRemoveButton.Text = "Remove Food";
             EditFoodRemoveButton.UseVisualStyleBackColor = true;
+            EditFoodRemoveButton.Click += EditFoodRemoveButton_Click;
             // 
             // EditFoodDairyCheckBox
             // 
@@ -1048,6 +1050,7 @@
             EditFoodListBox.Name = "EditFoodListBox";
             EditFoodListBox.Size = new Size(232, 204);
             EditFoodListBox.TabIndex = 84;
+            EditFoodListBox.SelectedIndexChanged += EditFoodListBox_SelectedIndexChanged;
             // 
             // EditFoodQuantityTextBox
             // 

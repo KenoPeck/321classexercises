@@ -117,6 +117,9 @@ namespace FinalExam
             }
         }
 
+        /// <summary>
+        /// Function for updating contributions to daily goals from selected meal.
+        /// </summary>
         private void UpdatePlateDailyGoals()
         {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
@@ -137,6 +140,10 @@ namespace FinalExam
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
+        /// <summary>
+        /// Function to update daily goals from all meals on selected dates.
+        /// </summary>
+        /// <param name="selectedDate">date of meals to update daily goal values from.</param>
         private void UpdateDailyGoals(DateTime selectedDate)
         {
             float dailyFruit = this.currentUser.GetDailyServings(0, selectedDate);
@@ -151,6 +158,9 @@ namespace FinalExam
             this.DairyPercentLabelDaily.Text = this.currentUser.GetGoal(4) == 0 ? "0%" : (dailyDairy / this.currentUser.GetGoal(4) * 100).ToString() + "%";
         }
 
+        /// <summary>
+        /// Function for when UpdateGoalsButton is pressed.
+        /// </summary>
         private void UpdateGoalsButton_Click(object sender, EventArgs e)
         {
             float fruit = 0;
@@ -203,14 +213,19 @@ namespace FinalExam
                 }
             }
 
+            // Setting daily goals
             this.currentUser.SetGoal(0, fruit);
             this.currentUser.SetGoal(1, vegetable);
             this.currentUser.SetGoal(2, protein);
             this.currentUser.SetGoal(3, grains);
             this.currentUser.SetGoal(4, dairy);
+
+            // Updating daily goal percentages if date is selected
             if (this.DateBox.SelectedItem != null)
             {
                 this.UpdateDailyGoals((DateTime)this.DateBox.SelectedItem);
+
+                // Updating plate daily goal percentages if meal is selected
                 if (this.MealSelectorBox.SelectedItem != null)
                 {
                     this.UpdatePlateDailyGoals();
@@ -218,6 +233,9 @@ namespace FinalExam
             }
         }
 
+        /// <summary>
+        /// Function for when AddFoodButton is pressed.
+        /// </summary>
         private void AddFoodButton_Click(object sender, EventArgs e)
         {
             float foodQuantity = 0;
@@ -236,6 +254,10 @@ namespace FinalExam
             else if (this.FruitCheckBox.Checked == false && this.VegetableCheckBox.Checked == false && this.ProteinCheckBox.Checked == false && this.GrainsCheckBox.Checked == false && this.DairyCheckBox.Checked == false)
             {
                 MessageBox.Show("Please select a category.");
+            }
+            else if (this.currentUser.GetFoodItems().Any(x => x.Item1 == this.FoodNameTextBox.Text))
+            {
+                MessageBox.Show("Food item already exists.");
             }
             else
             {
@@ -283,6 +305,9 @@ namespace FinalExam
             }
         }
 
+        /// <summary>
+        /// Function for when AddToMealButton is pressed.
+        /// </summary>
         private void AddToMealButton_Click(object sender, EventArgs e)
         {
             float foodQuantity = 0;
@@ -310,6 +335,7 @@ namespace FinalExam
             else
             {
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type: this.AvailableFoodBox.SelectedItem has been checked for null.
+                // Getting selected food item
                 string food = this.AvailableFoodBox.SelectedItem.ToString();
                 string[] foodSplit = food.Split(" - ");
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
@@ -345,6 +371,9 @@ namespace FinalExam
             }
         }
 
+        /// <summary>
+        /// Function for when AddMealButton is pressed.
+        /// </summary>
         private void AddMealButton_Click(object sender, EventArgs e)
         {
             if (this.MealTypeBox.SelectedItem == null)
@@ -353,10 +382,11 @@ namespace FinalExam
             }
             else
             {
-                DateTime selectedDate = this.AddMealDateTimePicker.Value.Date;
 #pragma warning disable CS8604 // Possible null reference argument.
+                DateTime selectedDate = this.AddMealDateTimePicker.Value.Date;
+
+                // Creating meal plan for selected date
                 this.currentUser.CreateMealPlan(this.selectedFoods, selectedDate, this.MealTypeBox.SelectedItem.ToString());
-#pragma warning restore CS8604 // Possible null reference argument.
                 if (this.DateBox.Items.Contains(selectedDate) == false)
                 {
                     this.DateBox.Items.Add(selectedDate);
@@ -368,14 +398,20 @@ namespace FinalExam
                 this.MealTypeBox.ClearSelected();
                 this.FoodForMealBox.Items.Clear();
                 this.MealSelectorBox.Items.Clear();
+                this.DateBox.ClearSelected();
 
+                // Updating daily goal percentages if date is selected
                 if (this.DateBox.SelectedItem != null)
                 {
                     this.UpdateDailyGoals(selectedDate);
                 }
+#pragma warning restore CS8604 // Possible null reference argument.
             }
         }
 
+        /// <summary>
+        /// Function for when a Date is selected.
+        /// </summary>
         private void DateBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.MealSelectorBox.Items.Clear();
@@ -395,6 +431,9 @@ namespace FinalExam
             this.UpdateDailyGoals(selectedDate);
         }
 
+        /// <summary>
+        /// Function for when a Meal is selected.
+        /// </summary>
         private void MealSelectorBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
@@ -405,6 +444,8 @@ namespace FinalExam
             this.SelectedMealAmountsGroup.Text = "Daily Goal Contributions from " + this.MealSelectorBox.SelectedItem.ToString() + ":";
 
             this.EditMealFoodForMealBox.Items.Clear();
+
+            // Adding food items from selected meal to EditMealFoodForMealBox
             this.EditMealGroup.Text = "Edit " + this.MealSelectorBox.SelectedItem.ToString() + " On " + this.DateBox.SelectedItem.ToString();
             foreach ((string, float) food in this.currentUser.GetMealFoods(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem))
             {
@@ -414,6 +455,9 @@ namespace FinalExam
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
+        /// <summary>
+        /// Function for when EditMealRemoveButton is pressed.
+        /// </summary>
         private void EditMealRemoveButton_Click(object sender, EventArgs e)
         {
             if (this.EditMealFoodForMealBox.SelectedItem == null)
@@ -426,6 +470,8 @@ namespace FinalExam
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning disable CS8605 // Unboxing a possibly null value.
+
+                // Removing food from meal
                 string food = this.EditMealFoodForMealBox.SelectedItem.ToString();
                 string[] foodSplit = food.Split(" - ");
                 string foodName = foodSplit[0];
@@ -462,6 +508,9 @@ namespace FinalExam
             }
         }
 
+        /// <summary>
+        /// Function for when EditMealAddButton is pressed.
+        /// </summary>
         private void EditMealAddButton_Click(object sender, EventArgs e)
         {
             float foodQuantity = 0;
@@ -500,6 +549,7 @@ namespace FinalExam
                     return;
                 }
 
+                // Adding food to meal
                 string selectedFood = foodName + " - " + this.EditMealQuantityTextBox.Text.ToString() + " Servings";
                 this.currentUser.AddFoodToPlate(this.MealSelectorBox.SelectedItem.ToString(), (DateTime)this.DateBox.SelectedItem, foodName, foodQuantity);
                 this.EditMealFoodForMealBox.Items.Add(selectedFood);
@@ -516,6 +566,7 @@ namespace FinalExam
                 this.EditFoodListBox.Items.Add(newFood);
                 this.currentUser.ChangeFoodItemServings(foodName, newQuantity);
 
+                // Updating daily goal percentages
                 this.UpdateDailyGoals((DateTime)this.DateBox.SelectedItem);
                 this.UpdatePlateDailyGoals();
                 this.EditMealQuantityTextBox.Clear();
@@ -524,6 +575,190 @@ namespace FinalExam
 #pragma warning restore CS8604 // Possible null reference argument.
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
+        }
+
+        /// <summary>
+        /// Function for when an Available Food is selected.
+        /// </summary>
+        private void EditFoodListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.EditFoodListBox.SelectedItem != null)
+            {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                string food = this.EditFoodListBox.SelectedItem.ToString();
+                string[] foodSplit = food.Split(" - ");
+                string foodName = foodSplit[0];
+                float foodQuantity = float.Parse(foodSplit[1].Split(" ")[0]);
+                List<int> foodGroups = this.currentUser.GetFoodGroups(foodName);
+
+                // Updating fields for selected food item
+                this.EditFoodQuantityTextBox.Text = foodQuantity.ToString();
+                this.EditFoodFruitCheckBox.Checked = foodGroups.Contains(0);
+                this.EditFoodVegetableCheckBox.Checked = foodGroups.Contains(1);
+                this.EditFoodProteinCheckBox.Checked = foodGroups.Contains(2);
+                this.EditFoodGrainsCheckBox.Checked = foodGroups.Contains(3);
+                this.EditFoodDairyCheckBox.Checked = foodGroups.Contains(4);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            }
+        }
+
+        /// <summary>
+        /// Function for when EditFoodUpdateButton is pressed.
+        /// </summary>
+        private void EditFoodUpdateButton_Click(object sender, EventArgs e)
+        {
+            float newQuantity = 0;
+            if (this.EditFoodListBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a food item.");
+            }
+            else if (this.EditFoodQuantityTextBox.Text == string.Empty)
+            {
+                MessageBox.Show("Please enter a quantity.");
+            }
+            else if (!float.TryParse(this.EditFoodQuantityTextBox.Text, out newQuantity))
+            {
+                MessageBox.Show("Please enter a number for quantity.");
+            }
+            else if (this.EditFoodFruitCheckBox.Checked == false && this.EditFoodVegetableCheckBox.Checked == false && this.EditFoodProteinCheckBox.Checked == false && this.EditFoodGrainsCheckBox.Checked == false && this.EditFoodDairyCheckBox.Checked == false)
+            {
+                MessageBox.Show("Please select a food group.");
+            }
+            else
+            {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                string food = this.EditFoodListBox.SelectedItem.ToString();
+                string[] foodSplit = food.Split(" - ");
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+                string foodName = foodSplit[0];
+                float oldQuantity = float.Parse(foodSplit[1].Split(" ")[0]);
+                List<int> groups = new ();
+
+                // Getting new food groups
+                if (this.EditFoodFruitCheckBox.Checked)
+                {
+                    groups.Add(0);
+                }
+
+                if (this.EditFoodVegetableCheckBox.Checked)
+                {
+                    groups.Add(1);
+                }
+
+                if (this.EditFoodProteinCheckBox.Checked)
+                {
+                    groups.Add(2);
+                }
+
+                if (this.EditFoodGrainsCheckBox.Checked)
+                {
+                    groups.Add(3);
+                }
+
+                if (this.EditFoodDairyCheckBox.Checked)
+                {
+                    groups.Add(4);
+                }
+
+                if (this.currentUser.GetFoodGroups(foodName) == groups && newQuantity == oldQuantity)
+                {
+                    MessageBox.Show("No changes made to food item.");
+                    return;
+                }
+                else if (this.currentUser.GetFoodGroups(foodName) == groups)
+                {
+                    // Updating food item servings but not food groups
+                    this.currentUser.ChangeFoodItemServings(foodName, newQuantity);
+                    string newFood = foodName + " - " + newQuantity.ToString() + " Servings";
+                    this.EditFoodListBox.Items.Remove(food);
+                    this.EditFoodListBox.Items.Add(newFood);
+                    this.EditMealFoodBox.Items.Remove(food);
+                    this.EditMealFoodBox.Items.Add(newFood);
+                    this.AvailableFoodBox.Items.Remove(food);
+                    this.AvailableFoodBox.Items.Add(newFood);
+                }
+                else if (newQuantity == oldQuantity)
+                {
+                    // Updating food item foodgroups but not servings
+                    this.currentUser.ChangeFoodItemGroups(foodName, groups);
+                }
+                else
+                {
+                    // Updating food item servings and food groups
+                    this.currentUser.ChangeFoodItemServings(foodName, newQuantity);
+                    this.currentUser.ChangeFoodItemGroups(foodName, groups);
+                    string newFood = foodName + " - " + newQuantity.ToString() + " Servings";
+                    this.EditFoodListBox.Items.Remove(food);
+                    this.EditFoodListBox.Items.Add(newFood);
+                    this.EditMealFoodBox.Items.Remove(food);
+                    this.EditMealFoodBox.Items.Add(newFood);
+                    this.AvailableFoodBox.Items.Remove(food);
+                    this.AvailableFoodBox.Items.Add(newFood);
+                }
+
+                // Updating daily goal percentages if date is selected
+                if (this.DateBox.SelectedItem != null)
+                {
+                    this.UpdateDailyGoals((DateTime)this.DateBox.SelectedItem);
+
+                    // Updating plate daily goal percentages if meal is selected
+                    if (this.MealSelectorBox.SelectedItem != null)
+                    {
+                        this.UpdatePlateDailyGoals();
+                    }
+                }
+
+                this.EditFoodListBox.ClearSelected();
+            }
+        }
+
+        /// <summary>
+        /// Function for when EditFoodRemoveButton is pressed.
+        /// </summary>
+        private void EditFoodRemoveButton_Click(object sender, EventArgs e)
+        {
+            if (this.EditFoodListBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a food item.");
+            }
+            else
+            {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
+                // Removing food item from available food and all meals
+                this.currentUser.DeleteFoodItem(this.EditFoodListBox.SelectedItem.ToString().Split(" - ")[0]);
+
+                // Removing food item from relevant fields
+                this.AvailableFoodBox.Items.Remove(this.EditFoodListBox.SelectedItem);
+                this.EditMealFoodBox.Items.Remove(this.EditFoodListBox.SelectedItem);
+                foreach (var item in this.EditMealFoodForMealBox.Items)
+                {
+                    if (item.ToString().Contains(this.EditFoodListBox.SelectedItem.ToString().Split(" - ")[0]))
+                    {
+                        this.EditMealFoodForMealBox.Items.Remove(item);
+                        break;
+                    }
+                }
+
+                this.EditFoodListBox.Items.Remove(this.EditFoodListBox.SelectedItem);
+
+                // Updating daily goal percentages if date is selected
+                if (this.DateBox.SelectedItem != null)
+                {
+                    this.UpdateDailyGoals((DateTime)this.DateBox.SelectedItem);
+
+                    // Updating plate daily goal percentages if meal is selected
+                    if (this.MealSelectorBox.SelectedItem != null)
+                    {
+                        this.UpdatePlateDailyGoals();
+                    }
+                }
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            }
         }
     }
 }

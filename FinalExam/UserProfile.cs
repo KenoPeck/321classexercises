@@ -72,6 +72,15 @@ namespace FinalExam
         }
 
         /// <summary>
+        /// Removes a food item from the available foods and all plates.
+        /// </summary>
+        /// <param name="name">name of food to be removed.</param>
+        public void DeleteFoodItem(string name)
+        {
+            this.planHandler.DeleteFoodItem(name);
+        }
+
+        /// <summary>
         /// Gets the list of available food items.
         /// </summary>
         /// <returns>List of available food items in mealplan.</returns>
@@ -254,6 +263,39 @@ namespace FinalExam
         public void ChangeFoodItemServings(string foodName, float servings)
         {
             this.planHandler.ChangeFoodItemServings(foodName, servings);
+        }
+
+        /// <summary>
+        /// Changes the food groups of a food item.
+        /// </summary>
+        /// <param name="foodName">name of food item.</param>
+        /// <param name="groups">new food groups for food item.</param>
+        public void ChangeFoodItemGroups(string foodName, List<int> groups)
+        {
+            List<FoodGroup> foodGroups = new List<FoodGroup>();
+            foreach (int group in groups)
+            {
+                foodGroups.Add((FoodGroup)group);
+            }
+
+            this.planHandler.ChangeFoodItemGroups(foodName, foodGroups);
+            this.planHandler.ChangeFoodItemGroupsInPlates(foodName, foodGroups);
+        }
+
+        /// <summary>
+        /// Gets the food groups of a food item.
+        /// </summary>
+        /// <param name="foodName">name of food.</param>
+        /// <returns>List of foodgroups for food.</returns>
+        public List<int> GetFoodGroups(string foodName)
+        {
+            List<int> groups = new List<int>();
+            foreach (FoodGroup group in this.planHandler.GetAvailableFoods().Find(x => x.Item1 == foodName).Item2.Groups)
+            {
+                groups.Add((int)group);
+            }
+
+            return groups;
         }
     }
 }
