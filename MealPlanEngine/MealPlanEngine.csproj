@@ -13,4 +13,10 @@
     </PackageReference>
   </ItemGroup>
 
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>FinalExam</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
 </Project>

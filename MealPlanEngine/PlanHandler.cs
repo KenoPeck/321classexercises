@@ -7,7 +7,7 @@ namespace MealPlanEngine
     /// <summary>
     /// Class to handle meal plans.
     /// </summary>
-    public class PlanHandler
+    internal class PlanHandler
     {
         private Dictionary<(string, DateTime), int> mealTypeCounts = new Dictionary<(string, DateTime), int>();
 

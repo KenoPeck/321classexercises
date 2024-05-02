@@ -7,7 +7,7 @@ namespace MealPlanEngine
     /// <summary>
     /// Food Item class.
     /// </summary>
-    public class FoodItem
+    internal class FoodItem
     {
         /// <summary>
         /// Gets name of the food item.

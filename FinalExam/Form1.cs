@@ -22,6 +22,7 @@ namespace FinalExam
             this.currentUser = new ("TestUser", "Test");
             this.users = new List<UserProfile>();
             this.users.Add(this.currentUser);
+            this.HideMealPlanner(); // comment out to debug without login
             foreach (string mealType in this.currentUser.GetMealTypes())
             {
                 this.MealTypeBox.Items.Add(mealType);

@@ -7,7 +7,7 @@ namespace MealPlanEngine
     /// <summary>
     /// Abstract class for Plate.
     /// </summary>
-    public abstract class Plate
+    internal abstract class Plate
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Plate"/> class.

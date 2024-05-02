@@ -7,7 +7,7 @@ namespace MealPlanEngine
     /// <summary>
     /// enum for FoodGroup.
     /// </summary>
-    public enum FoodGroup
+    internal enum FoodGroup
     {
         /// <summary>
         /// Fruit food group
@@ -38,7 +38,7 @@ namespace MealPlanEngine
     /// <summary>
     /// Food Category class.
     /// </summary>
-    public class Category
+    internal class Category
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Category"/> class.
